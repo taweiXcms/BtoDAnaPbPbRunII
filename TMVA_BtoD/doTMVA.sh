@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DOTMVA=0
-PRODMVAVALUE=1
+PRODMVAVALUE=0
 DOMERGE=1
 DOREADXML=0
 PLOTROC=0 
@@ -131,16 +131,18 @@ do
                 echo
                 echo "  Processing mergeBDT.sh - ${isPbPb[j]}"
                 echo
+				cd tmvaVal/MVAfiles 
                 if [ -f $outputMC ]; then
                     echo "  Error: Targed merged file exists: $outputMC"
                 else
-                    hadd $outputMC $inputMC mva/MVAfiles/MVA_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}_MC.root
+                    hadd ../../$outputMC $inputMC *_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}_varStage*_MC.root 
                 fi
                 if [ -f $outputData ]; then
                     echo "  Error: Targed merged file exists: $outputData"
                 else
-                    hadd $outputData $inputData mva/MVAfiles/MVA_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}_DATA.root
+                    hadd ../../$outputData $inputData *_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}_varStage*_DATA.root
                 fi
+				cd -
             fi
 
             if [ $DOREADXML -eq 1 ]; then
@@ -157,11 +159,11 @@ do
 					do
 					echo ${MVA[k]}
 					if [ "${MVA[k]}" = "LD" ] || [ "${MVA[k]}" = "MLP" ] || [ "${MVA[k]}" = "BDT" ] || [ "${MVA[k]}" = "BDTB" ]; then
-#					if [ "${MVA[k]}" = "" ]; then
+					#if [ "${MVA[k]}" = "" ]; then
 		                root -b -q "readxml_MVA.cc++("\"$outputMC\"","\"$outputData\"","${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}")"
 					fi
 					if [ "${MVA[k]}" = "Cuts" ] || [ "${MVA[k]}" = "CutsSA" ] || [ "${MVA[k]}" = "CutsGA" ]; then
-#					if [ "${MVA[k]}" = "Cuts" ]; then
+					#if [ "${MVA[k]}" = "Cuts" ]; then
 			       		root -b -q "readxml.cc++("${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}")"
 					fi
 					k=$(($k+1))
