@@ -268,29 +268,29 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
      dataloader->AddVariable("DRestrk2Dxy/DRestrk2D0Err");
    }
    if(varStage>=4){
-     dataloader->AddVariable("Dalpha");//>
-     dataloader->AddVariable("DtktkRes_alpha");//>
-     dataloader->AddVariable("DtktkRes_alphaToSV");//>
+     //dataloader->AddVariable("DtktkRes_angleToTrk1");//>
+     dataloader->AddVariable("DtktkRes_unfitted_angleToTrk1");//>
    }
    if(varStage>=5){
-     //dataloader->AddVariable("DtktkRes_angleToTrk1");//>
-     dataloader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1");//>
-   }
-   if(varStage>=6){
-     dataloader->AddVariable("DsvpvDistance/DsvpvDisErr");//>
-     dataloader->AddVariable("DtktkRes_svpvDistance/DtktkRes_svpvDisErr");//>
-   }
-   if(varStage>=7){
-     //dataloader->AddVariable("DtktkRes_ptAsymToTrk1");//>
-     dataloader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1");//>
-   }
-   if(varStage>=8){
      //dataloader->AddVariable("Dtrk1thetastar");
      //dataloader->AddVariable("DRestrk1thetastar");
      //dataloader->AddVariable("DRestrk2thetastar");
      dataloader->AddVariable("Dtrk1thetastar_uf");
      dataloader->AddVariable("DRestrk1thetastar_uf");
      dataloader->AddVariable("DRestrk2thetastar_uf");
+   }
+   if(varStage>=6){
+     //dataloader->AddVariable("DtktkRes_ptAsymToTrk1");//>
+     dataloader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1");//>
+   }
+   if(varStage>=7){
+     dataloader->AddVariable("Dalpha");//>
+     dataloader->AddVariable("DtktkRes_alpha");//>
+     dataloader->AddVariable("DtktkRes_alphaToSV");//>
+   }
+   if(varStage>=8){
+     dataloader->AddVariable("DsvpvDistance/DsvpvDisErr");//>
+     dataloader->AddVariable("DtktkRes_svpvDistance/DtktkRes_svpvDisErr");//>
    }
    if(varStage>=9){
      dataloader->AddVariable("Ddca");
@@ -425,23 +425,23 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
    }
    if(varStage>=4){
      VarSet+=":VarProp[9]=FMin";
-     VarSet+=":VarProp[10]=FMin";
-     VarSet+=":VarProp[11]=FMin";
    }
    if(varStage>=5){
+     VarSet+=":VarProp[10]=FMin";
+     VarSet+=":VarProp[11]=FMin";
      VarSet+=":VarProp[12]=FMin";
    }
    if(varStage>=6){
-     VarSet+=":VarProp[13]=FMax";
-     VarSet+=":VarProp[14]=FMax";
+     VarSet+=":VarProp[13]=NotEnforced";
    }
    if(varStage>=7){
-     VarSet+=":VarProp[15]=NotEnforced";
+     VarSet+=":VarProp[14]=FMin";
+     VarSet+=":VarProp[15]=FMin";
+     VarSet+=":VarProp[16]=FMin";
    }
    if(varStage>=8){
-     VarSet+=":VarProp[16]=FMin";
-     VarSet+=":VarProp[17]=FMin";
-     VarSet+=":VarProp[18]=FMin";
+     VarSet+=":VarProp[17]=FMax";
+     VarSet+=":VarProp[18]=FMax";
    }
    if(varStage>=9){
      VarSet+=":VarProp[19]=FMax";
