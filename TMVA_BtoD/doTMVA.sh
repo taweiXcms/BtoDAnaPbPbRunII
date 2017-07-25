@@ -1,10 +1,10 @@
 #!/bin/bash
 
-DOTMVA=0
+DOTMVA=1
 PRODMVAVALUE=0
-DOMERGE=1
+DOMERGE=0
 DOREADXML=0
-PLOTROC=0 
+PLOTROC=0
 GETCUTVAL=0
 #
 OUTPUTDIR="test"
@@ -24,12 +24,12 @@ fi
 # if working on several ptbins, BDT.C need to be changed
 PTBIN=(5 7)
 RAA=(0.49)
-COLSYST=('PbPb')
+COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
 MVA=('MLP')
-nvIni=6
-nVAR=7
+nvIni=3
+nVAR=8
 
 ##
 MVAStr=''
