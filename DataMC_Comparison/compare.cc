@@ -71,9 +71,9 @@ void compare(){
 	string label = "";
 	if(ispp){
 		label = "pp"; 
-        inputmc = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_pp_BuToD0Pi_20151212_v2_DfinderMC_pp_20170423_BtoD0Pi_pthatweight.root";
-        inputdata ="/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_MinimumBias_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170717_MinimumBias2_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim.root";
-    }
+		inputmc = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_pp_BuToD0Pi_20151212_v2_DfinderMC_pp_20170423_BtoD0Pi_pthatweight.root";
+		inputdata ="/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_MinimumBias_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170717_MinimumBias2_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim.root";
+	}
 	else{
 		label = "PbPb";
 		//inputmc = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_PbPb_BuToD0Pi_20151212_DfinderMC_PbPb_20170720_BtoD0Pi_40FilesEach_pthatweight.root";
@@ -87,12 +87,12 @@ void compare(){
 	TH1D* histData[nHist];
 	initHist(0, histData);
 	readTree(0, histData, inputdata);
-    TCanvas* c[nHist];
-    TCanvas* cdummy;
-    cdummy =  new TCanvas(Form("cdummy"),"",600,600);
-    cdummy->SaveAs(Form("plots_%s/all.pdf(", label.c_str()));
+	TCanvas* c[nHist];
+	TCanvas* cdummy;
+	cdummy =  new TCanvas(Form("cdummy"),"",600,600);
+	cdummy->SaveAs(Form("plots_%s/all.pdf(", label.c_str()));
 	plotting(histMC, histData, c);
-    cdummy->SaveAs(Form("plots_%s/all.pdf)", label.c_str()));
+	cdummy->SaveAs(Form("plots_%s/all.pdf)", label.c_str()));
 
 	TFile *outf= new TFile(Form("results_%s.root", label.c_str()), "recreate"); 
 	outf->cd();
@@ -104,90 +104,90 @@ void compare(){
 }
 
 void readTree(bool isMC, TH1D* hist[], string input){
-    TFile* inf = new TFile(input.c_str());
-    TTree* nt = (TTree*)inf->Get("ntBptoD0pi");
-    TTree* ntHlt = (TTree*)inf->Get("ntHlt");
-    TTree* ntSkim = (TTree*)inf->Get("ntSkim");
-    TTree* ntHi = (TTree*)inf->Get("ntHi");
-    TTree* ntGen = (TTree*)inf->Get("ntGen");
+	TFile* inf = new TFile(input.c_str());
+	TTree* nt = (TTree*)inf->Get("ntBptoD0pi");
+	TTree* ntHlt = (TTree*)inf->Get("ntHlt");
+	TTree* ntSkim = (TTree*)inf->Get("ntSkim");
+	TTree* ntHi = (TTree*)inf->Get("ntHi");
+	TTree* ntGen = (TTree*)inf->Get("ntGen");
 	setAddressTree(nt, ntHlt, ntSkim, ntHi, ntGen, ispp, isMC);
 	int nevents_total = nt->GetEntries();
 	if(!isMC) nevents_total = int(nevents_total*0.1);
-//	nevents_total = 200000;
+	//	nevents_total = 200000;
 	float weight = 1;
-    for(int entry=0; entry<nevents_total; entry++){
-	    if ((entry%10000) == 0) printf("Loading event #%d of %d.\n",entry,nevents_total);
-    	nt->GetEntry(entry);
-    	ntHlt->GetEntry(entry);
-    	ntSkim->GetEntry(entry);
-    	ntHi->GetEntry(entry);
+	for(int entry=0; entry<nevents_total; entry++){
+		if ((entry%10000) == 0) printf("Loading event #%d of %d.\n",entry,nevents_total);
+		nt->GetEntry(entry);
+		ntHlt->GetEntry(entry);
+		ntSkim->GetEntry(entry);
+		ntHi->GetEntry(entry);
 		if(isMC) ntGen->GetEntry(entry);
-	    for(int g=0; g<Gsize; g++){
-        }
-	    for(int d=0; d<Dsize; d++){
+		for(int g=0; g<Gsize; g++){
+		}
+		for(int d=0; d<Dsize; d++){
 			bool pass = false;
 			if(isMC) weight = pthatweight;
 			else weight = 1;
 			// baseline cuts
 			if(!(1
-				&& TMath::Abs(Dy[d])<1.0
-				&& Dmass[d]>5&&Dmass[d]<6
-				&& Dtrk1highPurity[d] && abs(Dtrk1Eta[d])<1.5 && Dtrk1Pt[d]>0.5 && Dtrk1PtErr[d]/Dtrk1Pt[d]<0.3
-				&& DRestrk1highPurity[d] && abs(DRestrk1Eta[d])<1.5 && DRestrk1Pt[d]>0.5 && DRestrk1PtErr[d]/DRestrk1Pt[d]<0.3
-				&& DRestrk2highPurity[d] && abs(DRestrk2Eta[d])<1.5 && DRestrk2Pt[d]>0.5 && DRestrk1PtErr[d]/DRestrk1Pt[d]<0.3
-				&& fabs(DtktkResmass[d]-1.87)<0.03
-				&& Dpt[d]>ptBins[0] && Dpt[d]<ptBins[1]
-				&& Dchi2cl[d]>0.05
-				&& DtktkRes_chi2cl[d]>0.05
-				&& Dalpha[d]<3.2
-				&& DtktkRes_alpha[d]<3.2
-				&& DtktkRes_alphaToSV[d]<3.2
-				&& (DsvpvDistance[d]/DsvpvDisErr[d])>0.0
-				&& (DtktkRes_svpvDistance[d]/DtktkRes_svpvDisErr[d])>0.0
-			)) continue;
+						&& TMath::Abs(Dy[d])<1.0
+						&& Dmass[d]>5&&Dmass[d]<6
+						&& Dtrk1highPurity[d] && abs(Dtrk1Eta[d])<1.5 && Dtrk1Pt[d]>0.5 && Dtrk1PtErr[d]/Dtrk1Pt[d]<0.3
+						&& DRestrk1highPurity[d] && abs(DRestrk1Eta[d])<1.5 && DRestrk1Pt[d]>0.5 && DRestrk1PtErr[d]/DRestrk1Pt[d]<0.3
+						&& DRestrk2highPurity[d] && abs(DRestrk2Eta[d])<1.5 && DRestrk2Pt[d]>0.5 && DRestrk1PtErr[d]/DRestrk1Pt[d]<0.3
+						&& fabs(DtktkResmass[d]-1.87)<0.03
+						&& Dpt[d]>ptBins[0] && Dpt[d]<ptBins[1]
+						&& Dchi2cl[d]>0.05
+						&& DtktkRes_chi2cl[d]>0.05
+						&& Dalpha[d]<3.2
+						&& DtktkRes_alpha[d]<3.2
+						&& DtktkRes_alphaToSV[d]<3.2
+						&& (DsvpvDistance[d]/DsvpvDisErr[d])>0.0
+						&& (DtktkRes_svpvDistance[d]/DtktkRes_svpvDisErr[d])>0.0
+				)) continue;
 			if(ispp){
 				if(1
-				&& (!isMC || (Dgen[d]==23333))
-				&& abs(PVz)<15
-				&& pBeamScrapingFilter
-				&& pPAprimaryVertexFilter
-//				&& ((!isMC && (HLT_DmesonPPTrackingGlobal_Dpt8_v1 || HLT_DmesonPPTrackingGlobal_Dpt15_v1 || HLT_DmesonPPTrackingGlobal_Dpt20_v1 || HLT_DmesonPPTrackingGlobal_Dpt30_v1 || HLT_DmesonPPTrackingGlobal_Dpt50_v1)) || isMC) 
-//				&& (!isMC || (isMC && (HLT_DmesonPPTrackingGlobal_Dpt8ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt15ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt20ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt30ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt50ForPPRef_v1)) )
-//				&& ( (!isMC && (HLT_L1MinimumBiasHF1OR_part1_v1||HLT_L1MinimumBiasHF1OR_part2_v1||HLT_L1MinimumBiasHF1OR_part3_v1||HLT_L1MinimumBiasHF1OR_part4_v1||HLT_L1MinimumBiasHF1OR_part5_v1||HLT_L1MinimumBiasHF1OR_part6_v1||HLT_L1MinimumBiasHF1OR_part7_v1||HLT_L1MinimumBiasHF1OR_part8_v1||HLT_L1MinimumBiasHF1OR_part9_v1||HLT_L1MinimumBiasHF1OR_part10_v1||HLT_L1MinimumBiasHF1OR_part11_v1||HLT_L1MinimumBiasHF1OR_part12_v1||HLT_L1MinimumBiasHF1OR_part13_v1||HLT_L1MinimumBiasHF1OR_part14_v1||HLT_L1MinimumBiasHF1OR_part15_v1||HLT_L1MinimumBiasHF1OR_part16_v1||HLT_L1MinimumBiasHF1OR_part17_v1||HLT_L1MinimumBiasHF1OR_part18_v1||HLT_L1MinimumBiasHF1OR_part19_v1)) || isMC)
+						&& (!isMC || (Dgen[d]==23333))
+						&& abs(PVz)<15
+						&& pBeamScrapingFilter
+						&& pPAprimaryVertexFilter
+						//				&& ((!isMC && (HLT_DmesonPPTrackingGlobal_Dpt8_v1 || HLT_DmesonPPTrackingGlobal_Dpt15_v1 || HLT_DmesonPPTrackingGlobal_Dpt20_v1 || HLT_DmesonPPTrackingGlobal_Dpt30_v1 || HLT_DmesonPPTrackingGlobal_Dpt50_v1)) || isMC) 
+						//				&& (!isMC || (isMC && (HLT_DmesonPPTrackingGlobal_Dpt8ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt15ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt20ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt30ForPPRef_v1 || HLT_DmesonPPTrackingGlobal_Dpt50ForPPRef_v1)) )
+						//				&& ( (!isMC && (HLT_L1MinimumBiasHF1OR_part1_v1||HLT_L1MinimumBiasHF1OR_part2_v1||HLT_L1MinimumBiasHF1OR_part3_v1||HLT_L1MinimumBiasHF1OR_part4_v1||HLT_L1MinimumBiasHF1OR_part5_v1||HLT_L1MinimumBiasHF1OR_part6_v1||HLT_L1MinimumBiasHF1OR_part7_v1||HLT_L1MinimumBiasHF1OR_part8_v1||HLT_L1MinimumBiasHF1OR_part9_v1||HLT_L1MinimumBiasHF1OR_part10_v1||HLT_L1MinimumBiasHF1OR_part11_v1||HLT_L1MinimumBiasHF1OR_part12_v1||HLT_L1MinimumBiasHF1OR_part13_v1||HLT_L1MinimumBiasHF1OR_part14_v1||HLT_L1MinimumBiasHF1OR_part15_v1||HLT_L1MinimumBiasHF1OR_part16_v1||HLT_L1MinimumBiasHF1OR_part17_v1||HLT_L1MinimumBiasHF1OR_part18_v1||HLT_L1MinimumBiasHF1OR_part19_v1)) || isMC)
 
-				// Additional cuts
-//				&& abs(Dtrk1Eta[d])<1.0 && abs(DRestrk1Eta[d])<1.0 && abs(DRestrk2Eta[d])<1.0
-//				&& Dtrk1Pt[d]>1. && DRestrk1Pt[d]>1. && DRestrk2Pt[d]>1.
-//				&& Dalpha[d]<0.3
-//				&& (DsvpvDistance[d]/DsvpvDisErr[d])>3.
-//				&& (DtktkRes_svpvDistance[d]/DtktkRes_svpvDisErr[d])>2.0
-//				&& DtktkRespt[d]>2.0
-//				&& DtktkRes_ptAsymToTrk1[d]>-0.8 && DtktkRes_ptAsymToTrk1[d]<0.65
-				){
+						// Additional cuts
+						//				&& abs(Dtrk1Eta[d])<1.0 && abs(DRestrk1Eta[d])<1.0 && abs(DRestrk2Eta[d])<1.0
+						//				&& Dtrk1Pt[d]>1. && DRestrk1Pt[d]>1. && DRestrk2Pt[d]>1.
+						//				&& Dalpha[d]<0.3
+						//				&& (DsvpvDistance[d]/DsvpvDisErr[d])>3.
+						//				&& (DtktkRes_svpvDistance[d]/DtktkRes_svpvDisErr[d])>2.0
+						//				&& DtktkRespt[d]>2.0
+						//				&& DtktkRes_ptAsymToTrk1[d]>-0.8 && DtktkRes_ptAsymToTrk1[d]<0.65
+				  ){
 					pass = true;
 				}
 			}//if pp
 			else{	
 				if(1
-                && (!isMC || (Dgen[d]==23333))
-				&& abs(PVz)<15
-				&& pclusterCompatibilityFilter
-				&& pprimaryVertexFilter
-				&& phfCoincFilter3
-//				&& ( (!isMC && (HLT_HIDmesonHITrackingGlobal_Dpt20_v1 || HLT_HIDmesonHITrackingGlobal_Dpt40_v1 || HLT_HIDmesonHITrackingGlobal_Dpt60_v1)) 
-//					|| (isMC && (HLT_HIDmesonHITrackingGlobal_Dpt20_v2 || HLT_HIDmesonHITrackingGlobal_Dpt40_v2 || HLT_HIDmesonHITrackingGlobal_Dpt60_v2)) )
-//
-				){
+						&& (!isMC || (Dgen[d]==23333))
+						&& abs(PVz)<15
+						&& pclusterCompatibilityFilter
+						&& pprimaryVertexFilter
+						&& phfCoincFilter3
+						//				&& ( (!isMC && (HLT_HIDmesonHITrackingGlobal_Dpt20_v1 || HLT_HIDmesonHITrackingGlobal_Dpt40_v1 || HLT_HIDmesonHITrackingGlobal_Dpt60_v1)) 
+						//					|| (isMC && (HLT_HIDmesonHITrackingGlobal_Dpt20_v2 || HLT_HIDmesonHITrackingGlobal_Dpt40_v2 || HLT_HIDmesonHITrackingGlobal_Dpt60_v2)) )
+						//
+				  ){
 					pass = true;
 				}
 			}//if pbpb
-            if(pass){
+			if(pass){
 				hist[bmass]->Fill(Dmass[d], weight);
 			}
 			if(pass && (isMC || (!isMC && (Dmass[d]-5.279)>0.2&&(Dmass[d]-5.279)<0.5))){
-			    TLorentzVector* Bp = new TLorentzVector;
-			    TLorentzVector* D0 = new TLorentzVector;
-			    TLorentzVector* Pi = new TLorentzVector;
+				TLorentzVector* Bp = new TLorentzVector;
+				TLorentzVector* D0 = new TLorentzVector;
+				TLorentzVector* Pi = new TLorentzVector;
 				Bp->SetPtEtaPhiM(Dpt[d], Deta[d], Dphi[d], Dmass[d]);
 				D0->SetPtEtaPhiM(DtktkRespt[d], DtktkReseta[d], DtktkResphi[d], DtktkResmass[d]);
 				Pi->SetPtEtaPhiM(Dtrk1Pt[d], Dtrk1Eta[d], Dtrk1Phi[d], PION_MASS);
@@ -216,7 +216,7 @@ void readTree(bool isMC, TH1D* hist[], string input){
 				hist[bressvpv]->Fill(DtktkRes_svpvDistance[d],  weight);
 				hist[bressvpvnorm]->Fill(DtktkRes_svpvDistance[d]/DtktkRes_svpvDisErr[d], weight);
 				hist[bresalpha]->Fill(DtktkRes_alpha[d], weight);
-                hist[bresalphatosv]->Fill(DtktkRes_alphaToSV[d], weight);
+				hist[bresalphatosv]->Fill(DtktkRes_alphaToSV[d], weight);
 				hist[breschicl]->Fill(DtktkRes_chi2cl[d], weight);
 				hist[brestk1pt]->Fill(DRestrk1Pt[d], weight);
 				hist[brestk2pt]->Fill(DRestrk2Pt[d], weight);
@@ -232,14 +232,14 @@ void readTree(bool isMC, TH1D* hist[], string input){
 				hist[brestk1thetastar_uf]->Fill(DRestrk1thetastar_uf[d], weight);
 				hist[brestk2thetastar]->Fill(DRestrk2thetastar[d], weight);
 				hist[brestk2thetastar_uf]->Fill(DRestrk2thetastar_uf[d], weight);
-                hist[bmaxtkpt]->Fill(DMaxTkPt[d], weight);
-                hist[bmintkpt]->Fill(DMinTkPt[d], weight);
-                hist[bdpiptasym]->Fill(DtktkRes_ptAsymToTrk1[d], weight);
-                hist[bdpiangle]->Fill(DtktkRes_angleToTrk1[d], weight);
-                hist[bdpiptasym_uf]->Fill(DtktkRes_unfitter_ptAsymToTrk1[d], weight);
-                hist[bdpiangle_uf]->Fill(DtktkRes_unfitted_angleToTrk1[d], weight);
+				hist[bmaxtkpt]->Fill(DMaxTkPt[d], weight);
+				hist[bmintkpt]->Fill(DMinTkPt[d], weight);
+				hist[bdpiptasym]->Fill(DtktkRes_ptAsymToTrk1[d], weight);
+				hist[bdpiangle]->Fill(DtktkRes_angleToTrk1[d], weight);
+				hist[bdpiptasym_uf]->Fill(DtktkRes_unfitter_ptAsymToTrk1[d], weight);
+				hist[bdpiangle_uf]->Fill(DtktkRes_unfitted_angleToTrk1[d], weight);
 			}
-        }//Bsize loop
+		}//Bsize loop
 	}//event loop
 }
 
@@ -252,7 +252,7 @@ void initHist(bool isMC, TH1D* hist[]){
 	else mc = "Data";
 	string title;
 	for(int i = 0; i < nHist; i++){
-    	title = Form("%s_%s_%s", settings[i].names.c_str(), label.c_str(), mc.c_str());
+		title = Form("%s_%s_%s", settings[i].names.c_str(), label.c_str(), mc.c_str());
 		hist[i] = new TH1D(title.c_str(), title.c_str(), numofbins, settings[i].histmin, settings[i].histmax);	
 		hist[i]->SetMinimum(0);
 	}
@@ -264,7 +264,7 @@ void plotting(TH1D* hist1[], TH1D* hist2[], TCanvas* c[]){
 	else label = "PbPb";
 	for(int i = 0; i < nHist; i++){
 		c[i] =  new TCanvas(Form("c%d",i),"",600,600);
-        c[i]->cd();
+		c[i]->cd();
 		if(hist1[i]->Integral() != 0)
 			hist1[i]->Scale(hist2[i]->Integral()/hist1[i]->Integral());
 
@@ -296,5 +296,5 @@ void plotting(TH1D* hist1[], TH1D* hist2[], TCanvas* c[]){
 
 		c[i]->SaveAs(Form("plots_%s/%s.pdf", label.c_str(), settings[i].names.c_str()));
 		c[i]->SaveAs(Form("plots_%s/all.pdf", label.c_str()));
-    }
+	}
 }

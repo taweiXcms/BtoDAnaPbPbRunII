@@ -47,6 +47,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 	Float_t DtktkRes_alpha[MAX_XB];
 	Float_t DtktkRes_alphaToSV[MAX_XB];
 	Float_t DtktkRes_angleToTrk1[MAX_XB];
+	Float_t DtktkRes_unfitted_angleToTrk1[MAX_XB];
 	Float_t DsvpvDistance[MAX_XB];
 	Float_t DsvpvDisErr[MAX_XB];
 	Float_t DtktkRes_svpvDistance[MAX_XB];
@@ -56,6 +57,9 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
     Float_t Dtrk1thetastar[MAX_XB];
     Float_t DRestrk1thetastar[MAX_XB];
     Float_t DRestrk2thetastar[MAX_XB];
+    Float_t Dtrk1thetastar_uf[MAX_XB];
+    Float_t DRestrk1thetastar_uf[MAX_XB];
+    Float_t DRestrk2thetastar_uf[MAX_XB];
     Float_t Ddca[MAX_XB];
     Float_t DtktkRes_dca[MAX_XB];
     Float_t DtktkRes_dcaToSV[MAX_XB];
@@ -79,6 +83,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 	t->SetBranchAddress("DtktkRes_alpha", DtktkRes_alpha);
 	t->SetBranchAddress("DtktkRes_alphaToSV", DtktkRes_alphaToSV);
 	t->SetBranchAddress("DtktkRes_angleToTrk1", DtktkRes_angleToTrk1);
+	t->SetBranchAddress("DtktkRes_unfitted_angleToTrk1", DtktkRes_unfitted_angleToTrk1);
 	t->SetBranchAddress("DsvpvDistance", DsvpvDistance);
 	t->SetBranchAddress("DsvpvDisErr", DsvpvDisErr);
 	t->SetBranchAddress("DtktkRes_svpvDistance", DtktkRes_svpvDistance);
@@ -88,6 +93,9 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 	t->SetBranchAddress("Dtrk1thetastar", Dtrk1thetastar);
 	t->SetBranchAddress("DRestrk1thetastar", DRestrk1thetastar);
 	t->SetBranchAddress("DRestrk2thetastar", DRestrk2thetastar);
+	t->SetBranchAddress("Dtrk1thetastar_uf", Dtrk1thetastar_uf);
+	t->SetBranchAddress("DRestrk1thetastar_uf", DRestrk1thetastar_uf);
+	t->SetBranchAddress("DRestrk2thetastar_uf", DRestrk2thetastar_uf);
 	t->SetBranchAddress("Ddca", Ddca);
 	t->SetBranchAddress("DtktkRes_dca", DtktkRes_dca);
 	t->SetBranchAddress("DtktkRes_dcaToSV", DtktkRes_dcaToSV);
@@ -112,6 +120,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 	Float_t __DtktkRes_alpha;
 	Float_t __DtktkRes_alphaToSV;
 	Float_t __DtktkRes_angleToTrk1;
+	Float_t __DtktkRes_unfitted_angleToTrk1;
 	Float_t __DsvpvDistance_Over_DsvpvDisErr;
 	Float_t __DtktkRes_svpvDistance_Over_DtktkRes_svpvDisErr;
 	Float_t __DtktkRes_ptAsymToTrk1;
@@ -119,6 +128,9 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
     Float_t __Dtrk1thetastar;
     Float_t __DRestrk1thetastar;
     Float_t __DRestrk2thetastar;
+    Float_t __Dtrk1thetastar_uf;
+    Float_t __DRestrk1thetastar_uf;
+    Float_t __DRestrk2thetastar_uf;
     Float_t __Ddca;
     Float_t __DtktkRes_dca;
     Float_t __DtktkRes_dcaToSV;
@@ -141,25 +153,29 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 		reader->AddVariable("DRestrk2Dxy/DRestrk2D0Err",                 &__DRestrk2Dxy_Over_DRestrk2D0Err);
 	}
 	if(varStage>=4){
+		//reader->AddVariable("DtktkRes_angleToTrk1",                      &__DtktkRes_angleToTrk1);
+		reader->AddVariable("DtktkRes_unfitted_angleToTrk1",               &__DtktkRes_unfitted_angleToTrk1);
+	}
+	if(varStage>=5){
+		//reader->AddVariable("Dtrk1thetastar",                            &__Dtrk1thetastar);
+		//reader->AddVariable("DRestrk1thetastar",                         &__DRestrk1thetastar);
+		//reader->AddVariable("DRestrk2thetastar",                         &__DRestrk2thetastar);
+		reader->AddVariable("Dtrk1thetastar_uf",                           &__Dtrk1thetastar_uf);
+		reader->AddVariable("DRestrk1thetastar_uf",                        &__DRestrk1thetastar_uf);
+		reader->AddVariable("DRestrk2thetastar_uf",                        &__DRestrk2thetastar_uf);
+	}
+	if(varStage>=6){
+		//reader->AddVariable("DtktkRes_ptAsymToTrk1",                     &__DtktkRes_ptAsymToTrk1);
+		reader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1",            &__DtktkRes_unfitter_ptAsymToTrk1);
+	}
+	if(varStage>=7){
 		reader->AddVariable("Dalpha",                                    &__Dalpha);
 		reader->AddVariable("DtktkRes_alpha",                            &__DtktkRes_alpha);
 		reader->AddVariable("DtktkRes_alphaToSV",                        &__DtktkRes_alphaToSV);
 	}
-	if(varStage>=5){
-		reader->AddVariable("DtktkRes_angleToTrk1",                      &__DtktkRes_angleToTrk1);
-	}
-	if(varStage>=6){
+	if(varStage>=8){
 		reader->AddVariable("DsvpvDistance/DsvpvDisErr",                 &__DsvpvDistance_Over_DsvpvDisErr);
 		reader->AddVariable("DtktkRes_svpvDistance/DtktkRes_svpvDisErr", &__DtktkRes_svpvDistance_Over_DtktkRes_svpvDisErr);
-	}
-	if(varStage>=7){
-		//reader->AddVariable("DtktkRes_ptAsymToTrk1",                     &__DtktkRes_ptAsymToTrk1);
-		reader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1",            &__DtktkRes_unfitter_ptAsymToTrk1);
-	}
-	if(varStage>=8){
-		reader->AddVariable("Dtrk1thetastar",                            &__Dtrk1thetastar);
-		reader->AddVariable("DRestrk1thetastar",                         &__DRestrk1thetastar);
-		reader->AddVariable("DRestrk2thetastar",                         &__DRestrk2thetastar);
 	}
 	if(varStage>=9){
 		reader->AddVariable("Ddca",                                      &__Ddca);
@@ -201,6 +217,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 			__DtktkRes_alpha                                 = DtktkRes_alpha[j];
 			__DtktkRes_alphaToSV                             = DtktkRes_alphaToSV[j];
 			__DtktkRes_angleToTrk1                           = DtktkRes_angleToTrk1[j];
+			__DtktkRes_unfitted_angleToTrk1                  = DtktkRes_unfitted_angleToTrk1[j];
 			__DsvpvDistance_Over_DsvpvDisErr                 = DsvpvDistance[j]/DsvpvDisErr[j];
 			__DtktkRes_svpvDistance_Over_DtktkRes_svpvDisErr = DtktkRes_svpvDistance[j]/DtktkRes_svpvDisErr[j];
 			__DtktkRes_ptAsymToTrk1                          = DtktkRes_ptAsymToTrk1[j];
@@ -208,6 +225,9 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 			__Dtrk1thetastar                                 = Dtrk1thetastar[j];
 			__DRestrk1thetastar                              = DRestrk1thetastar[j];
 			__DRestrk2thetastar                              = DRestrk2thetastar[j];
+			__Dtrk1thetastar_uf                              = Dtrk1thetastar_uf[j];
+			__DRestrk1thetastar_uf                           = DRestrk1thetastar_uf[j];
+			__DRestrk2thetastar_uf                           = DRestrk2thetastar_uf[j];
 			__Ddca                                           = Ddca[j];
 			__DtktkRes_dca                                   = DtktkRes_dca[j];
 			__DtktkRes_dcaToSV                               = DtktkRes_dcaToSV[j];

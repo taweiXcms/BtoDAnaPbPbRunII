@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DOTMVA=1
-PRODMVAVALUE=0
-DOMERGE=0
+DOTMVA=0
+PRODMVAVALUE=1
+DOMERGE=1
 DOREADXML=0
 PLOTROC=0 
 GETCUTVAL=0
@@ -28,8 +28,8 @@ COLSYST=('PbPb')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
 MVA=('MLP')
-nvIni=0
-nVAR=1
+nvIni=6
+nVAR=7
 
 ##
 MVAStr=''
