@@ -27,7 +27,7 @@ RAA=(0.49)
 COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
-MVA=('BDT')
+MVA=('MLP')
 nvIni=3
 nVAR=8
 
@@ -46,7 +46,7 @@ done
 MVAStr=${MVAStr}${MVA[k]}
 echo "MVA methods: "$MVAStr
 
-FOLDERS=("tmvaVal/MVAfiles" "readxml/plots" "plotROC/plotsROC")
+FOLDERS=("myTMVA/ROOT" "tmvaVal/MVAfiles" "readxml/plots" "plotROC/plotsROC")
 for i in ${FOLDERS[@]}
 do
     if [ ! -d $i ]; then
