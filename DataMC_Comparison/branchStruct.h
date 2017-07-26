@@ -12,6 +12,11 @@
 #define PION_MASS   0.13957018
 #define D0_MASS 1.8648
 
+TTree* nt;
+TTree* ntHlt;
+TTree* ntSkim;
+TTree* ntHi;
+TTree* ntGen;
 //pp
 int     pBeamScrapingFilter;
 int     pPAprimaryVertexFilter;
@@ -123,7 +128,12 @@ float   DRestrk2thetastar[MAX_XB];
 float   DRestrk1thetastar_uf[MAX_XB];
 float   DRestrk2thetastar_uf[MAX_XB];
 
-void setAddressTree(TTree* nt, TTree* ntHlt, TTree* ntSkim, TTree* ntHi, TTree* ntGen, bool ispp, bool isMC){
+void setAddressTree(TFile* inf, bool ispp, bool isMC){
+    nt = (TTree*)inf->Get("ntBptoD0pi");
+    ntHlt = (TTree*)inf->Get("ntHlt");
+    ntSkim = (TTree*)inf->Get("ntSkim");
+    ntHi = (TTree*)inf->Get("ntHi");
+    ntGen = (TTree*)inf->Get("ntGen");
 	if(ispp){
 		ntSkim->SetBranchAddress("pBeamScrapingFilter",&pBeamScrapingFilter);
 		ntSkim->SetBranchAddress("pPAprimaryVertexFilter",&pPAprimaryVertexFilter);

@@ -105,12 +105,7 @@ void compare(){
 
 void readTree(bool isMC, TH1D* hist[], string input){
 	TFile* inf = new TFile(input.c_str());
-	TTree* nt = (TTree*)inf->Get("ntBptoD0pi");
-	TTree* ntHlt = (TTree*)inf->Get("ntHlt");
-	TTree* ntSkim = (TTree*)inf->Get("ntSkim");
-	TTree* ntHi = (TTree*)inf->Get("ntHi");
-	TTree* ntGen = (TTree*)inf->Get("ntGen");
-	setAddressTree(nt, ntHlt, ntSkim, ntHi, ntGen, ispp, isMC);
+	setAddressTree(inf, ispp, isMC);
 	int nevents_total = nt->GetEntries();
 	if(!isMC) nevents_total = int(nevents_total*0.1);
 	//	nevents_total = 200000;
