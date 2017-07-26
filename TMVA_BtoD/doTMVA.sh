@@ -46,7 +46,7 @@ done
 MVAStr=${MVAStr}${MVA[k]}
 echo "MVA methods: "$MVAStr
 
-FOLDERS=("myTMVA/weights" "myTMVA/ROOT" "mva/MVAfiles" "readxml/plots")
+FOLDERS=("tmvaVal/MVAfiles" "readxml/plots" "plotROC/plotsROC")
 for i in ${FOLDERS[@]}
 do
     if [ ! -d $i ]; then
