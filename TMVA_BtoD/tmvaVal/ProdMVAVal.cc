@@ -4,27 +4,18 @@
 #include "../prefilter.h"
 #define MAX_XB       20000
 
-void ProdMVAVal(string colsys = "pp", float ptMin = 5, float ptMax = 7, string mvatype = "MLP", int varStage = 5){
+void ProdMVAVal(string colsys = "pp", float ptMin = 5, float ptMax = 7, string mvatype = "MLP", int varStage = 5, TString inputS = "", TString inputB = ""){
 
 	void makeoutput(TString infname, TString ofname, string colsys, string mvatype, int varStage);
 
 	isPbPb = (colsys=="pp") ? 0 : 1;
 	ptmin = ptMin;
 	ptmax = ptMax;
-	if(isPbPb)
-	{
-		inputSname = inputSname_PP;
-		inputBname = inputBname_PP;
-	}
-	else{
-		inputSname = inputSname_pp;
-		inputBname = inputBname_pp;
-	}
 
 	TString outfile1 =Form("MVAfiles/%s_%s_%.0f_%.0f_varStage%d_DATA.root",mvatype.c_str(),colsys.c_str(),ptMin,ptMax,varStage) ;
-	makeoutput(inputBname,outfile1,colsys,mvatype,varStage);
+	makeoutput(inputB,outfile1,colsys,mvatype,varStage);
 	TString outfile2 =Form("MVAfiles/%s_%s_%.0f_%.0f_varStage%d_MC.root",mvatype.c_str(),colsys.c_str(),ptMin,ptMax,varStage) ;
-	makeoutput(inputSname,outfile2,colsys,mvatype,varStage);
+	makeoutput(inputS,outfile2,colsys,mvatype,varStage);
 }
 void makeoutput(TString infname, TString ofname, string colsys, string mvatype, int varStage){
 	// Read the input tree

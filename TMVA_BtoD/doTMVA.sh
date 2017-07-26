@@ -92,6 +92,8 @@ if [ $PRODMVAVALUE -eq 1 ]; then
     j=0
     while ((j<$nCOL))
     do
+        inputMC=${inputMCs[${isPbPb[j]}]}
+        inputData=${inputDatas[${isPbPb[j]}]}
         i=0
         while ((i<$nPT))
         do
@@ -101,7 +103,7 @@ if [ $PRODMVAVALUE -eq 1 ]; then
 	            s=nvIni
 	            while ((s<$nVAR))
     	        do
-                    root -l -b -q 'ProdMVAVal.cc++('\"${COLSYST[j]}\"','${PTBIN[i]}','${PTBIN[i+1]}','\"${MVA[k]}\"','$(($s+1))')'
+                    root -l -b -q 'ProdMVAVal.cc++('\"${COLSYST[j]}\"','${PTBIN[i]}','${PTBIN[i+1]}','\"${MVA[k]}\"','$(($s+1))','$inputMC','$inputData')'
                     rm ProdMVAVal_cc_ACLiC_dict_rdict.pcm ProdMVAVal_cc.d ProdMVAVal_cc.so
         	        s=$(($s+1))
 	            done
