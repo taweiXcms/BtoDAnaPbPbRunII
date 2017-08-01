@@ -28,8 +28,8 @@ COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
 MVA=('MLP')
-nvIni=3
-nVAR=8
+nvIni=0
+nVAR=10
 
 ##
 MVAStr=''

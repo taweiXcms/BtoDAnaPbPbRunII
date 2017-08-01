@@ -284,21 +284,22 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
      dataloader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1");//>
    }
    if(varStage>=7){
+     //dataloader->AddVariable("DtktkRespt");//>
+     dataloader->AddVariable("DtktkRes_unfitted_pt");//>
+   }
+   if(varStage>=8){
      dataloader->AddVariable("Dalpha");//>
      dataloader->AddVariable("DtktkRes_alpha");//>
      dataloader->AddVariable("DtktkRes_alphaToSV");//>
    }
-   if(varStage>=8){
+   if(varStage>=9){
      dataloader->AddVariable("DsvpvDistance/DsvpvDisErr");//>
      dataloader->AddVariable("DtktkRes_svpvDistance/DtktkRes_svpvDisErr");//>
    }
-   if(varStage>=9){
+   if(varStage>=10){
      dataloader->AddVariable("Ddca");
      dataloader->AddVariable("DtktkRes_dca");
      dataloader->AddVariable("DtktkRes_dcaToSV");
-   }
-   if(varStage>=10){
-     dataloader->AddVariable("DtktkRespt");//>
    }
    if(varStage>=11){
      dataloader->AddVariable("Dchi2cl");//>
@@ -397,7 +398,8 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
    ////                                      "nTrain_Signal=1000:nTrain_Background=1000:SplitMode=Random:NormMode=NumEvents:!V" );
    dataloader->PrepareTrainingAndTestTree( mycutS, mycutB,
 //                                        "nTrain_Signal=0:nTrain_Background=10000:nTest_Signal=0:nTest_Background=10000:SplitMode=Random:NormMode=NumEvents:!V" );
-                                        "nTrain_Signal=0:nTrain_Background=100000:nTest_Signal=0:nTest_Background=100000:SplitMode=Random:NormMode=NumEvents:!V" );
+//                                        "nTrain_Signal=0:nTrain_Background=100000:nTest_Signal=0:nTest_Background=100000:SplitMode=Random:NormMode=NumEvents:!V" );
+                                        "nTrain_Signal=0:nTrain_Background=0:nTest_Signal=0:nTest_Background=0:SplitMode=Random:NormMode=NumEvents:!V" );
 
    // ### Book MVA methods
    //
@@ -435,20 +437,20 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
      VarSet+=":VarProp[13]=NotEnforced";
    }
    if(varStage>=7){
-     VarSet+=":VarProp[14]=FMin";
-     VarSet+=":VarProp[15]=FMin";
-     VarSet+=":VarProp[16]=FMin";
+     VarSet+=":VarProp[14]=FMax";
    }
    if(varStage>=8){
-     VarSet+=":VarProp[17]=FMax";
-     VarSet+=":VarProp[18]=FMax";
+     VarSet+=":VarProp[15]=FMin";
+     VarSet+=":VarProp[16]=FMin";
+     VarSet+=":VarProp[17]=FMin";
    }
    if(varStage>=9){
+     VarSet+=":VarProp[18]=FMax";
      VarSet+=":VarProp[19]=FMax";
-     VarSet+=":VarProp[20]=FMax";
-     VarSet+=":VarProp[21]=FMax";
    }
    if(varStage>=10){
+     VarSet+=":VarProp[20]=FMax";
+     VarSet+=":VarProp[21]=FMax";
      VarSet+=":VarProp[22]=FMax";
    }
    if(varStage>=11){

@@ -55,6 +55,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
     Float_t DtktkRes_dca[MAX_XB];
     Float_t DtktkRes_dcaToSV[MAX_XB];
 	Float_t DtktkRespt[MAX_XB];
+	Float_t DtktkRes_unfitted_pt[MAX_XB];
 	Float_t Dchi2cl[MAX_XB];
 	Float_t DtktkRes_chi2cl[MAX_XB];
 	t->SetBranchAddress("Dsize", &Dsize);
@@ -91,6 +92,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 	t->SetBranchAddress("DtktkRes_dca", DtktkRes_dca);
 	t->SetBranchAddress("DtktkRes_dcaToSV", DtktkRes_dcaToSV);
 	t->SetBranchAddress("DtktkRespt", DtktkRespt);
+	t->SetBranchAddress("DtktkRes_unfitted_pt", DtktkRes_unfitted_pt);
 	t->SetBranchAddress("Dchi2cl", Dchi2cl);
 	t->SetBranchAddress("DtktkRes_chi2cl", DtktkRes_chi2cl);
 
@@ -126,6 +128,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
     Float_t __DtktkRes_dca;
     Float_t __DtktkRes_dcaToSV;
 	Float_t __DtktkRespt;
+	Float_t __DtktkRes_unfitted_pt;
 	Float_t __Dchi2cl;
 	Float_t __DtktkRes_chi2cl;
 	if(varStage>=1){
@@ -160,21 +163,22 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 		reader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1",            &__DtktkRes_unfitter_ptAsymToTrk1);
 	}
 	if(varStage>=7){
+		//reader->AddVariable("DtktkRespt",                                &__DtktkRespt);
+		reader->AddVariable("DtktkRes_unfitted_pt",                      &__DtktkRes_unfitted_pt);
+	}
+	if(varStage>=8){
 		reader->AddVariable("Dalpha",                                    &__Dalpha);
 		reader->AddVariable("DtktkRes_alpha",                            &__DtktkRes_alpha);
 		reader->AddVariable("DtktkRes_alphaToSV",                        &__DtktkRes_alphaToSV);
 	}
-	if(varStage>=8){
+	if(varStage>=9){
 		reader->AddVariable("DsvpvDistance/DsvpvDisErr",                 &__DsvpvDistance_Over_DsvpvDisErr);
 		reader->AddVariable("DtktkRes_svpvDistance/DtktkRes_svpvDisErr", &__DtktkRes_svpvDistance_Over_DtktkRes_svpvDisErr);
 	}
-	if(varStage>=9){
+	if(varStage>=10){
 		reader->AddVariable("Ddca",                                      &__Ddca);
 		reader->AddVariable("DtktkRes_dca",                              &__DtktkRes_dca);
 		reader->AddVariable("DtktkRes_dcaToSV",                          &__DtktkRes_dcaToSV);
-	}
-	if(varStage>=10){
-		reader->AddVariable("DtktkRespt",                                &__DtktkRespt);
 	}
 	if(varStage>=11){
 		reader->AddVariable("Dchi2cl",                                   &__Dchi2cl);
@@ -223,6 +227,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 			__DtktkRes_dca                                   = DtktkRes_dca[j];
 			__DtktkRes_dcaToSV                               = DtktkRes_dcaToSV[j];
 			__DtktkRespt                                     = DtktkRespt[j];
+			__DtktkRes_unfitted_pt                           = DtktkRes_unfitted_pt[j];
 			__Dchi2cl                                        = Dchi2cl[j];
 			__DtktkRes_chi2cl                                = DtktkRes_chi2cl[j];
 			MVAVal[j] = reader->EvaluateMVA(methodName);
