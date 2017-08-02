@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOTMVA=0
+DOTMVA=1
 PRODMVAVALUE=0
 DOMERGE=0
 DOREADXML=0
@@ -9,11 +9,11 @@ GETCUTVAL=0
 #
 OUTPUTDIR="test"
 inputMCs=(
-"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_pp_BuToD0Pi_20151212_v2_DfinderMC_pp_20170423_BtoD0Pi_pthatweight.root"
+"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_pp_BuToD0Pi_DfinderMC_pp_20170729_BtoD0Pi_pthatweight.root"
 "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_PbPb_BuToD0Pi_20151212_DfinderMC_PbPb_20170720_BtoD0Pi_40FilesEach_pthatweight.root"
 )
 inputDatas=(
-"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_MinimumBias_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170717_MinimumBias2_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim.root"
+"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170731_MinimumBias2to5_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim.root"
 "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_HIMinimumBias2_DfinderData_PbPb_20170717_Golden_BtoD0Pi_Dpt5EvtSkim_10Files.root"
 ""
 )
@@ -28,8 +28,8 @@ COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
 MVA=('MLP')
-nvIni=0
-nVAR=10
+nvIni=5
+nVAR=6
 
 ##
 MVAStr=''

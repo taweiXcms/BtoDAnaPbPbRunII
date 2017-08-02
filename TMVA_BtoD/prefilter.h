@@ -14,13 +14,14 @@ TString MVAtype;
 TString npfile;
 TString selgen = "TMath::Abs(Gy)<1.0 && abs(GpdgId)==521 && (GisSignal==13 || GisSignal==14)";
 TString kinematic_cuts = "TMath::Abs(Dy)<1.0 && Dmass>5&&Dmass<6";
-TString prefilter = "Dtrk1highPurity && DRestrk1highPurity && DRestrk2highPurity && Dtrk1PtErr/Dtrk1Pt<0.3 && DRestrk1PtErr/DRestrk1Pt<0.3 && DRestrk2PtErr/DRestrk2Pt<0.3 && abs(Dtrk1Eta)<1.0 && abs(DRestrk1Eta)<1.0 && abs(DRestrk2Eta)<1.0 && Dtrk1Pt>0.5 && DRestrk1Pt>0.5 && DRestrk2Pt>0.5 && DtktkRespt>0 && abs(DtktkResmass-1.87)<0.03 && Dchi2cl>0.05 && DtktkRes_chi2cl>0.05 && Dalpha<3.2 && DtktkRes_alpha<3.2 && DtktkRes_alphaToSV<3.2 && (DsvpvDistance/DsvpvDisErr)>0.0 && (DtktkRes_svpvDistance/DtktkRes_svpvDisErr)>0.0";
+//TString prefilter = "Dtrk1highPurity && DRestrk1highPurity && DRestrk2highPurity && Dtrk1PtErr/Dtrk1Pt<0.3 && DRestrk1PtErr/DRestrk1Pt<0.3 && DRestrk2PtErr/DRestrk2Pt<0.3 && abs(Dtrk1Eta)<1.0 && abs(DRestrk1Eta)<1.0 && abs(DRestrk2Eta)<1.0 && Dtrk1Pt>0.5 && DRestrk1Pt>0.5 && DRestrk2Pt>0.5 && DtktkRespt>0 && abs(DtktkResmass-1.87)<0.03 && Dchi2cl>0.05 && DtktkRes_chi2cl>0.05 && Dalpha<3.2 && DtktkRes_alpha<3.2 && DtktkRes_alphaToSV<3.2 && (DsvpvDistance/DsvpvDisErr)>0.0 && (DtktkRes_svpvDistance/DtktkRes_svpvDisErr)>0.0";
+TString prefilter = "Dtrk1highPurity && DRestrk1highPurity && DRestrk2highPurity && Dtrk1PtErr/Dtrk1Pt<0.3 && DRestrk1PtErr/DRestrk1Pt<0.3 && DRestrk2PtErr/DRestrk2Pt<0.3 && abs(Dtrk1Eta)<999.0 && abs(DRestrk1Eta)<999.0 && abs(DRestrk2Eta)<999.0 && Dtrk1Pt>0.5 && DRestrk1Pt>0.5 && DRestrk2Pt>0.5 && DtktkRespt>0 && abs(DtktkResmass-1.87)<0.03 && Dchi2cl>0.05 && DtktkRes_chi2cl>0.05 && Dalpha<3.2 && DtktkRes_alpha<3.2 && DtktkRes_alphaToSV<3.2 && (DsvpvDistance/DsvpvDisErr)>0.0 && (DtktkRes_svpvDistance/DtktkRes_svpvDisErr)>0.0";
 
 //////////pp section
 double lum_pp=0.0381639;//MB
 //double lum_pp=27.4;//HF
-TString inputSname_pp = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_pp_BuToD0Pi_20151212_v2_DfinderMC_pp_20170423_BtoD0Pi_pthatweight.root";
-TString inputBname_pp = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_MinimumBias_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170717_MinimumBias2_DfinderData_pp_20170423_BtoD0Pi_Dpt5EvtSkim.root";
+TString inputSname_pp = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_pp_BuToD0Pi_DfinderMC_pp_20170729_BtoD0Pi_pthatweight.root";
+TString inputBname_pp = "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170731_MinimumBias2to5_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim.root";
 //TString myTrg_pp ="((HLT_DmesonPPTrackingGlobal_Dpt8_v1&&DtktkRespt>10&&DtktkRespt<20)||(HLT_DmesonPPTrackingGlobal_Dpt15_v1&&DtktkRespt>20&&DtktkRespt<40)||(HLT_DmesonPPTrackingGlobal_Dpt30_v1&&DtktkRespt>40&&DtktkRespt<60)||(HLT_DmesonPPTrackingGlobal_Dpt50_v1&&DtktkRespt>60))";
 //TString myTrg_pp = "(HLT_DmesonPPTrackingGlobal_Dpt8_v1||HLT_DmesonPPTrackingGlobal_Dpt15_v1||HLT_DmesonPPTrackingGlobal_Dpt30_v1||HLT_DmesonPPTrackingGlobal_Dpt50_v1)";// HF
 //TString myTrg_pp = "(HLT_DmesonPPTrackingGlobal_Dpt8_v1||HLT_DmesonPPTrackingGlobal_Dpt15_v1||HLT_DmesonPPTrackingGlobal_Dpt20_v1||HLT_DmesonPPTrackingGlobal_Dpt30_v1||HLT_DmesonPPTrackingGlobal_Dpt50_v1)";// HF
