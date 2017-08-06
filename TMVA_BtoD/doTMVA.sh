@@ -6,6 +6,7 @@ DOMERGE=0
 DOREADXML=0
 PLOTROC=0
 GETCUTVAL=0
+EffB=0.01
 #
 OUTPUTDIR="test"
 inputMCs=(
@@ -28,8 +29,8 @@ COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
 MVA=('MLP')
-nvIni=5
-nVAR=6
+nvIni=4
+nVAR=5
 
 ##
 MVAStr=''
@@ -214,7 +215,6 @@ if [ $PLOTROC -eq 1 ]; then
 	cd ../
 fi
 
-EffB=0.1
 if [ $GETCUTVAL -eq 1 ]; then
     cd plotROC
     j=0

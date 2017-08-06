@@ -16,6 +16,8 @@ TString selgen = "TMath::Abs(Gy)<1.0 && abs(GpdgId)==521 && (GisSignal==13 || Gi
 TString kinematic_cuts = "TMath::Abs(Dy)<1.0 && Dmass>5&&Dmass<6";
 //TString prefilter = "Dtrk1highPurity && DRestrk1highPurity && DRestrk2highPurity && Dtrk1PtErr/Dtrk1Pt<0.3 && DRestrk1PtErr/DRestrk1Pt<0.3 && DRestrk2PtErr/DRestrk2Pt<0.3 && abs(Dtrk1Eta)<1.0 && abs(DRestrk1Eta)<1.0 && abs(DRestrk2Eta)<1.0 && Dtrk1Pt>0.5 && DRestrk1Pt>0.5 && DRestrk2Pt>0.5 && DtktkRespt>0 && abs(DtktkResmass-1.87)<0.03 && Dchi2cl>0.05 && DtktkRes_chi2cl>0.05 && Dalpha<3.2 && DtktkRes_alpha<3.2 && DtktkRes_alphaToSV<3.2 && (DsvpvDistance/DsvpvDisErr)>0.0 && (DtktkRes_svpvDistance/DtktkRes_svpvDisErr)>0.0";
 TString prefilter = "Dtrk1highPurity && DRestrk1highPurity && DRestrk2highPurity && Dtrk1PtErr/Dtrk1Pt<0.3 && DRestrk1PtErr/DRestrk1Pt<0.3 && DRestrk2PtErr/DRestrk2Pt<0.3 && abs(Dtrk1Eta)<999.0 && abs(DRestrk1Eta)<999.0 && abs(DRestrk2Eta)<999.0 && Dtrk1Pt>0.5 && DRestrk1Pt>0.5 && DRestrk2Pt>0.5 && DtktkRespt>0 && abs(DtktkResmass-1.87)<0.03 && Dchi2cl>0.05 && DtktkRes_chi2cl>0.05 && Dalpha<3.2 && DtktkRes_alpha<3.2 && DtktkRes_alphaToSV<3.2 && (DsvpvDistance/DsvpvDisErr)>0.0 && (DtktkRes_svpvDistance/DtktkRes_svpvDisErr)>0.0";
+TString masssideband = "abs(Dmass-5.279)>0.15&&abs(Dmass-5.279)<0.25";
+//TString masssideband = "(Dmass-5.279)>0.2&&(Dmass-5.279)<0.5";
 
 //////////pp section
 double lum_pp=0.0381639;//MB
@@ -29,8 +31,7 @@ TString myTrg_pp = "(HLT_L1MinimumBiasHF1OR_part1_v1||HLT_L1MinimumBiasHF1OR_par
 TString evtfilter_pp = "abs(PVz)<15 && pBeamScrapingFilter && pPAprimaryVertexFilter";
 TString mycut_pp = evtfilter_pp + "&&" + kinematic_cuts + "&&" + prefilter;
 TString mycuts_pp = Form("%s &&Dgen==23333",mycut_pp.Data());
-//TString mycutb_pp = Form("%s &&abs(Dmass-5.279)>0.2&&abs(Dmass-5.279)<0.3",mycut_pp.Data()); //sideband 0.1
-TString mycutb_pp = Form("%s &&(Dmass-5.279)>0.2&&(Dmass-5.279)<0.5&& %s",mycut_pp.Data(), myTrg_pp.Data()); //sideband 0.3
+TString mycutb_pp = Form("%s && %s && %s",masssideband.Data(), mycut_pp.Data(), myTrg_pp.Data()); //sideband 0.3
 TString mycutg_pp = selgen;
 
 ///////PbPb section
@@ -45,7 +46,7 @@ TString myTrg_PP = "(1)"; // events of MB dataset will all pass the MB HLT
 TString evtfilter_PP = "abs(PVz)<15 && pclusterCompatibilityFilter && pprimaryVertexFilter && phfCoincFilter3"; 
 TString mycut_PP = evtfilter_PP + "&&" + kinematic_cuts + "&&" + prefilter;
 TString mycuts_PP = Form("%s &&Dgen==23333",mycut_PP.Data());
-TString mycutb_PP = Form("%s &&(Dmass-5.279)>0.2&&(Dmass-5.279)<0.5&& %s",mycut_PP.Data(), myTrg_PP.Data()); //sideband 0.3
+TString mycutb_PP = Form("%s && %s && %s",masssideband.Data(), mycut_PP.Data(), myTrg_PP.Data()); //sideband 0.3
 TString mycutg_PP = selgen; 
 
 // the cuts used by the D RAA analysis, too tight for B to D analysis
