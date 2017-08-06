@@ -336,7 +336,7 @@ void calRatio(TTree* signal, TTree* background, TTree* generated, Float_t* resul
   //central[i] - in pb/GeV/c
 
   double yieldDzero = htheoryreco->Integral();
-  yieldDzero*=BR*deltapt*lumi*raa*2;// need to consider HLT prescale
+  yieldDzero*=BR*deltapt*lumi*raa*2*0.401;// need to consider HLT prescale
 
   //results[0] = nentriesB*Nsigma*sigma/0.05;//0.05: half of sideband width
   results[0] = nentriesB*0.08/0.3*2;// *2 since for BtoD sideband is only on 1 side
