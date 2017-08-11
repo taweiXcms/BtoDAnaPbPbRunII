@@ -30,9 +30,12 @@ void plotROC_StageWise(string mvatype="CutsGA,CutsSA,LD,MLP,BDT", string colsys 
 	std::istringstream ss(mvatype);
     std::string item;
     while (std::getline(ss, item, ',')) {
+		std::size_t found = item.find("DNN_");
+		if (found!=std::string::npos){
+			item.replace(found,found+4,"DNN ");
+		}
         mvamethod.push_back(item);
     }
-
     string istrain;
     if(isTrain == 1) istrain = "trainingRej";
     else istrain = "rej";
