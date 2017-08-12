@@ -665,12 +665,12 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
       // Cuda implementation.
       if (Use["DNN_GPU"]) {
          TString gpuOptions = dnnOptions + ":Architecture=GPU";
-         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN GPU", gpuOptions);
+         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN_GPU", gpuOptions);
       }
       // Multi-core CPU implementation.
       if (Use["DNN_CPU"]) {
          TString cpuOptions = dnnOptions + ":Architecture=CPU";
-         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN CPU", cpuOptions);
+         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN_CPU", cpuOptions);
       }
    }
 

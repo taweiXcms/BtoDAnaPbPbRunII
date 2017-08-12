@@ -32,7 +32,7 @@ void plotROC_StageWise(string mvatype="CutsGA,CutsSA,LD,MLP,BDT", string colsys 
     while (std::getline(ss, item, ',')) {
 		std::size_t found = item.find("DNN_");
 		if (found!=std::string::npos){
-			item.replace(found,found+4,"DNN ");
+			//item.replace(found,found+4,"DNN ");
 		}
         mvamethod.push_back(item);
     }

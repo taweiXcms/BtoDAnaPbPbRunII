@@ -13,7 +13,7 @@ void plotROC_MethodWise(string mvatype="CutsGA", string colsys = "pp", float ptm
 
 	std::size_t found = mvatype.find("DNN_");
 	if (found!=std::string::npos){
-		mvatype.replace(found,found+4,"DNN ");
+		//mvatype.replace(found,found+4,"DNN ");
 	}
 	TCanvas* c =  new TCanvas("c","",600,600);
 	//c->SetLogx();
