@@ -11,11 +11,7 @@ void plotROC_MethodWise(string mvatype="CutsGA", string colsys = "pp", float ptm
 	TFile* f[maxstyle];
 	TH1F* h[maxstyle];
 
-	std::size_t found = mvatype.find("DNN_");
-	if (found!=std::string::npos){
-		//mvatype.replace(found,found+4,"DNN ");
-	}
-	TCanvas* c =  new TCanvas("c","",600,600);
+    TCanvas* c =  new TCanvas("c","",600,600);
 	//c->SetLogx();
 	c->cd();
 	TH1F* hempty = new TH1F(Form("%s_ROC",mvatype.c_str()),Form("%s ROC curves",mvatype.c_str()),100,0,1.1);

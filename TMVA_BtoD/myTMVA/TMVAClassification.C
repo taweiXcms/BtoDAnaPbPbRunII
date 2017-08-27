@@ -258,20 +258,25 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
       dataloader->AddVariable("DRestrk2Pt");//>
    }
    if(varStage>=2){
-     dataloader->AddVariable("Dtrk1Eta");
-     dataloader->AddVariable("DRestrk1Eta");
-     dataloader->AddVariable("DRestrk2Eta");
-   }
-   if(varStage>=3){
      dataloader->AddVariable("Dtrk1Dxy/Dtrk1D0Err");
      dataloader->AddVariable("DRestrk1Dxy/DRestrk1D0Err");
      dataloader->AddVariable("DRestrk2Dxy/DRestrk2D0Err");
    }
+   if(varStage>=3){
+     dataloader->AddVariable("Dalpha");//>
+     dataloader->AddVariable("DtktkRes_alpha");//>
+     dataloader->AddVariable("DtktkRes_alphaToSV");//>
+   }
    if(varStage>=4){
+     dataloader->AddVariable("Dtrk1Eta");
+     dataloader->AddVariable("DRestrk1Eta");
+     dataloader->AddVariable("DRestrk2Eta");
+   }
+   if(varStage>=5){
      //dataloader->AddVariable("DtktkRes_angleToTrk1");//>
      dataloader->AddVariable("DtktkRes_unfitted_angleToTrk1");//>
    }
-   if(varStage>=5){
+   if(varStage>=6){
      //dataloader->AddVariable("Dtrk1thetastar");
      //dataloader->AddVariable("DRestrk1thetastar");
      //dataloader->AddVariable("DRestrk2thetastar");
@@ -279,18 +284,13 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
      dataloader->AddVariable("DRestrk1thetastar_uf");
      dataloader->AddVariable("DRestrk2thetastar_uf");
    }
-   if(varStage>=6){
+   if(varStage>=7){
      //dataloader->AddVariable("DtktkRes_ptAsymToTrk1");//>
      dataloader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1");//>
    }
-   if(varStage>=7){
+   if(varStage>=8){
      //dataloader->AddVariable("DtktkRespt");//>
      dataloader->AddVariable("DtktkRes_unfitted_pt");//>
-   }
-   if(varStage>=8){
-     dataloader->AddVariable("Dalpha");//>
-     dataloader->AddVariable("DtktkRes_alpha");//>
-     dataloader->AddVariable("DtktkRes_alphaToSV");//>
    }
    if(varStage>=9){
      dataloader->AddVariable("DsvpvDistance/DsvpvDisErr");//>
@@ -416,33 +416,33 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
      VarSet+=":VarProp[2]=FMax";
    }
    if(varStage>=2){
-     VarSet+=":VarProp[3]=FMin";
-     VarSet+=":VarProp[4]=FMin";
-     VarSet+=":VarProp[5]=FMin";
+     VarSet+=":VarProp[3]=FMax";
+     VarSet+=":VarProp[4]=FMax";
+     VarSet+=":VarProp[5]=FMax";
    }
    if(varStage>=3){
-     VarSet+=":VarProp[6]=FMax";
-     VarSet+=":VarProp[7]=FMax";
-     VarSet+=":VarProp[8]=FMax";
+     VarSet+=":VarProp[6]=FMin";
+     VarSet+=":VarProp[7]=FMin";
+     VarSet+=":VarProp[8]=FMin";
    }
    if(varStage>=4){
      VarSet+=":VarProp[9]=FMin";
-   }
-   if(varStage>=5){
      VarSet+=":VarProp[10]=FMin";
      VarSet+=":VarProp[11]=FMin";
+   }
+   if(varStage>=5){
      VarSet+=":VarProp[12]=FMin";
    }
    if(varStage>=6){
-     VarSet+=":VarProp[13]=NotEnforced";
+     VarSet+=":VarProp[13]=FMin";
+     VarSet+=":VarProp[14]=FMin";
+     VarSet+=":VarProp[15]=FMin";
    }
    if(varStage>=7){
-     VarSet+=":VarProp[14]=FMax";
+     VarSet+=":VarProp[16]=NotEnforced";
    }
    if(varStage>=8){
-     VarSet+=":VarProp[15]=FMin";
-     VarSet+=":VarProp[16]=FMin";
-     VarSet+=":VarProp[17]=FMin";
+     VarSet+=":VarProp[17]=FMax";
    }
    if(varStage>=9){
      VarSet+=":VarProp[18]=FMax";
@@ -665,12 +665,12 @@ int TMVAClassification(int pbpb=0, float ptMin=10., float ptMax=20., int varStag
       // Cuda implementation.
       if (Use["DNN_GPU"]) {
          TString gpuOptions = dnnOptions + ":Architecture=GPU";
-         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN_GPU", gpuOptions);
+         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN GPU", gpuOptions);
       }
       // Multi-core CPU implementation.
       if (Use["DNN_CPU"]) {
          TString cpuOptions = dnnOptions + ":Architecture=CPU";
-         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN_CPU", cpuOptions);
+         factory->BookMethod(dataloader, TMVA::Types::kDNN, "DNN CPU", cpuOptions);
       }
    }
 

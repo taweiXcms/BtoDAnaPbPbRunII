@@ -3,7 +3,7 @@
 #include <TH1.h>
 #include <TCanvas.h>
 #include "../readxml/Tools.h"
-#include "../readxml/readxml.h"
+#include "../readxml/readxml_Cuts.h"
 #include "style.h"
 using namespace std;
 TLegend* myLegend(Double_t x1, Double_t y1, Double_t x2, Double_t y2);

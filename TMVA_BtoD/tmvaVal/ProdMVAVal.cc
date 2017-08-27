@@ -137,20 +137,25 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 		reader->AddVariable("DRestrk2Pt",                                &__DRestrk2Pt);
 	}
 	if(varStage>=2){
-		reader->AddVariable("Dtrk1Eta",                                  &__Dtrk1Eta);
-		reader->AddVariable("DRestrk1Eta",                               &__DRestrk1Eta);
-		reader->AddVariable("DRestrk2Eta",                               &__DRestrk2Eta);
-	}
-	if(varStage>=3){
 		reader->AddVariable("Dtrk1Dxy/Dtrk1D0Err",                       &__Dtrk1Dxy_Over_Dtrk1D0Err);
 		reader->AddVariable("DRestrk1Dxy/DRestrk1D0Err",                 &__DRestrk1Dxy_Over_DRestrk1D0Err);
 		reader->AddVariable("DRestrk2Dxy/DRestrk2D0Err",                 &__DRestrk2Dxy_Over_DRestrk2D0Err);
 	}
+	if(varStage>=3){
+		reader->AddVariable("Dalpha",                                    &__Dalpha);
+		reader->AddVariable("DtktkRes_alpha",                            &__DtktkRes_alpha);
+		reader->AddVariable("DtktkRes_alphaToSV",                        &__DtktkRes_alphaToSV);
+	}
 	if(varStage>=4){
+		reader->AddVariable("Dtrk1Eta",                                  &__Dtrk1Eta);
+		reader->AddVariable("DRestrk1Eta",                               &__DRestrk1Eta);
+		reader->AddVariable("DRestrk2Eta",                               &__DRestrk2Eta);
+	}
+	if(varStage>=5){
 		//reader->AddVariable("DtktkRes_angleToTrk1",                      &__DtktkRes_angleToTrk1);
 		reader->AddVariable("DtktkRes_unfitted_angleToTrk1",               &__DtktkRes_unfitted_angleToTrk1);
 	}
-	if(varStage>=5){
+	if(varStage>=6){
 		//reader->AddVariable("Dtrk1thetastar",                            &__Dtrk1thetastar);
 		//reader->AddVariable("DRestrk1thetastar",                         &__DRestrk1thetastar);
 		//reader->AddVariable("DRestrk2thetastar",                         &__DRestrk2thetastar);
@@ -158,18 +163,13 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 		reader->AddVariable("DRestrk1thetastar_uf",                        &__DRestrk1thetastar_uf);
 		reader->AddVariable("DRestrk2thetastar_uf",                        &__DRestrk2thetastar_uf);
 	}
-	if(varStage>=6){
+	if(varStage>=7){
 		//reader->AddVariable("DtktkRes_ptAsymToTrk1",                     &__DtktkRes_ptAsymToTrk1);
 		reader->AddVariable("DtktkRes_unfitter_ptAsymToTrk1",            &__DtktkRes_unfitter_ptAsymToTrk1);
 	}
-	if(varStage>=7){
+	if(varStage>=8){
 		//reader->AddVariable("DtktkRespt",                                &__DtktkRespt);
 		reader->AddVariable("DtktkRes_unfitted_pt",                      &__DtktkRes_unfitted_pt);
-	}
-	if(varStage>=8){
-		reader->AddVariable("Dalpha",                                    &__Dalpha);
-		reader->AddVariable("DtktkRes_alpha",                            &__DtktkRes_alpha);
-		reader->AddVariable("DtktkRes_alphaToSV",                        &__DtktkRes_alphaToSV);
 	}
 	if(varStage>=9){
 		reader->AddVariable("DsvpvDistance/DsvpvDisErr",                 &__DsvpvDistance_Over_DsvpvDisErr);
@@ -188,7 +188,7 @@ void makeoutput(TString infname, TString ofname, string colsys, string mvatype, 
 
 	TFile *outf = new TFile(ofname,"recreate");
 
-	string varname = Form("%sStage%d",mvatype.c_str(),varStage);
+	string varname = Form("%sStage%d_pt%.0fto%.0f",mvatype.c_str(),varStage,ptmin,ptmax);
 	TTree *mvaTree = new TTree(varname.c_str(),varname.c_str());
 	float MVAVal[MAX_XB];
 	mvaTree->Branch("Dsize",&Dsize,"Dsize/I");
