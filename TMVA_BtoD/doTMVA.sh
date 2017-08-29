@@ -1,11 +1,11 @@
 #!/bin/bash
 
-DOTMVA=1
+DOTMVA=0
 PRODMVAVALUE=0
 DOMERGE=0
 DOREADXML=0
 PLOTROC=0
-GETCUTVAL=0
+GETCUTVAL=1
 EffB=0.01
 #
 OUTPUTDIR="test"
@@ -14,7 +14,7 @@ inputMCs=(
 "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_PbPb_BuToD0Pi_20151212_DfinderMC_PbPb_20170720_BtoD0Pi_40FilesEach_pthatweight.root"
 )
 inputDatas=(
-"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170731_MinimumBias2to5_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim.root"
+"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170731_MinimumBias2_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim.root"
 "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_HIMinimumBias2_DfinderData_PbPb_20170717_Golden_BtoD0Pi_Dpt5EvtSkim_10Files.root"
 ""
 )
@@ -28,9 +28,9 @@ RAA=(0.49)
 COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
-MVA=('MLP')
-nvIni=4
-nVAR=5
+MVA=('CutsSA' 'MLP' 'BDT')
+nvIni=1
+nVAR=3
 
 ##
 MVAStr=''
@@ -54,10 +54,10 @@ do
         mkdir $i
     fi
 done
-#
 
-v=$nvIni
+
 # TMVAClassification.C #
+v=$nvIni
 if [ $DOTMVA -eq 1 ]; then
     while ((v<$nVAR))
 	do
@@ -88,6 +88,7 @@ if [ $DOTMVA -eq 1 ]; then
     done
 fi
 
+# ProdMVAVal.cc
 if [ $PRODMVAVALUE -eq 1 ]; then
     cd tmvaVal
     j=0
@@ -117,73 +118,86 @@ if [ $PRODMVAVALUE -eq 1 ]; then
     cd ../
 fi
 
-# mergeBDT.C and readxml.cc #
-j=0
-while ((j<$nCOL))
-do
-    i=0
-    # if working on several ptbins, BDT.C need to be changed
-    if [ $nPT -eq 1 ]; then
-        while ((i<$nPT))
-        do
-            outputMC="${OUTPUTDIR}/ntB_${COLSYST[j]}_MC_${PTBIN[i]}_${PTBIN[i+1]}.root"
-            outputData="${OUTPUTDIR}/ntB_${COLSYST[j]}_Data_${PTBIN[i]}_${PTBIN[i+1]}.root"
-            inputMC=${inputMCs[${isPbPb[j]}]}
-            inputData=${inputDatas[${isPbPb[j]}]}
-            if [ $DOMERGE -eq 1 ]; then
-                echo
-                echo "  Processing mergeBDT.sh - ${isPbPb[j]}"
-                echo
-				cd tmvaVal/MVAfiles 
-                if [ -f $outputMC ]; then
-                    echo "  Error: Targed merged file exists: $outputMC"
-                else
-                    hadd ../../$outputMC $inputMC *_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}_varStage*_MC.root 
-                fi
-                if [ -f $outputData ]; then
-                    echo "  Error: Targed merged file exists: $outputData"
-                else
-                    hadd ../../$outputData $inputData *_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}_varStage*_DATA.root
-                fi
-				cd -
-            fi
-
-            if [ $DOREADXML -eq 1 ]; then
-                if [ ! -f $outputMC ]; then
-                    echo " Error: Merged MVA trees before readxml.cc : MC"
-                    echo
-                elif [ ! -f $outputData ]; then
-                    echo " Error: Merged MVA trees before readxml.cc : Data"
-                    echo
-                else
-                    cd readxml/
-					k=0
-					while ((k<$nMVA))
-					do
-					echo ${MVA[k]}
-					if [ "${MVA[k]}" = "LD" ] || [ "${MVA[k]}" = "MLP" ] || [ "${MVA[k]}" = "BDT" ] || [ "${MVA[k]}" = "BDTB" ]; then
-					#if [ "${MVA[k]}" = "" ]; then
-		                root -b -q "readxml_MVA.cc++("\"$outputMC\"","\"$outputData\"","${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}")"
-					fi
-					if [ "${MVA[k]}" = "Cuts" ] || [ "${MVA[k]}" = "CutsSA" ] || [ "${MVA[k]}" = "CutsGA" ]; then
-					#if [ "${MVA[k]}" = "Cuts" ]; then
-			       		root -b -q "readxml.cc++("${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}")"
-					fi
-					k=$(($k+1))
-					done
-	                cd ..
-                fi
-            fi
-
-            i=$(($i+1))
-        done
+# mergeBDT.C 
+outputMC="${OUTPUTDIR}/ntB_${COLSYST[j]}_MC.root"
+outputData="${OUTPUTDIR}/ntB_${COLSYST[j]}_Data.root"
+inputMC=${inputMCs[${isPbPb[j]}]}
+inputData=${inputDatas[${isPbPb[j]}]}
+if [ $DOMERGE -eq 1 ]; then
+	cd tmvaVal/MVAfiles 
+    if [ -f $outputMC ]; then
+        echo "  Error: Targed merged file exists: $outputMC"
     else
-        echo "  Error: If working on several ptbins, MVA.C need to be changed"
-        echo
+        hadd ../../$outputMC $inputMC *_${COLSYST[j]}_*_varStage*_MC.root 
     fi
-    j=$(($j+1))
-done
+    if [ -f $outputData ]; then
+        echo "  Error: Targed merged file exists: $outputData"
+    else
+        hadd ../../$outputData $inputData *_${COLSYST[j]}_*_varStage*_DATA.root
+    fi
+	cd -
+fi
 
+# readxml.cc 
+if [ $DOREADXML -eq 1 ]; then
+	cd readxml/
+	j=0
+	while ((j<$nCOL))
+	do
+	    i=0
+	    while ((i<$nPT))
+	    do
+            root -b -q "calRatio.cc++("${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}","\"${COLSYST[j]}_pT_${PTBIN[i]}_${PTBIN[i+1]}.h\"")"
+            rm calRatio_cc.d calRatio_cc.so calRatio_cc_ACLiC_dict_rdict.pcm
+			cp ${COLSYST[j]}"_pT_"${PTBIN[i]}"_"${PTBIN[i+1]}".h" pred_temp.h
+	        k=0
+	        while ((k<$nMVA))
+	        do
+	            s=nvIni
+	            while ((s<$nVAR))
+		        do
+		            root -b -q "readxml.cc++("${isPbPb[j]}","\"${MVA[k]}\"","$(($s+1))","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}")"
+                    rm readxml_cc.d readxml_cc.so readxml_cc_ACLiC_dict_rdict.pcm
+	    	        s=$(($s+1))
+	            done
+	            k=$(($k+1))
+	        done
+	        i=$(($i+1))
+	    done
+	    j=$(($j+1))
+	done
+	cd -
+fi
+
+# getCutGivenEffB.cc
+if [ $GETCUTVAL -eq 1 ]; then
+	cd plotROC
+	j=0
+	while ((j<$nCOL))
+	do
+	    i=0
+	    while ((i<$nPT))
+	    do
+	        k=0
+	        while ((k<$nMVA))
+	        do
+	            s=nvIni
+	            while ((s<$nVAR))
+		        do
+                	root -l -b -q 'getCutGivenEffB.cc++('\"${MVA[k]}\"','\"${COLSYST[j]}\"','${PTBIN[i]}','${PTBIN[i+1]}','$(($s+1))','$EffB')'
+    	            rm getCutGivenEffB_cc.d getCutGivenEffB_cc.so getCutGivenEffB_cc_ACLiC_dict_rdict.pcm
+	    	        s=$(($s+1))
+	            done
+	            k=$(($k+1))
+	        done
+	        i=$(($i+1))
+	    done
+	    j=$(($j+1))
+	done
+	cd -	
+fi
+
+# plotROC_MethodWise.cc and plotROC_StageWise.cc
 if [ $PLOTROC -eq 1 ]; then
 	cd plotROC
 	j=0
@@ -214,60 +228,3 @@ if [ $PLOTROC -eq 1 ]; then
 	done
 	cd ../
 fi
-
-if [ $GETCUTVAL -eq 1 ]; then
-    cd plotROC
-    j=0
-    while ((j<$nCOL))
-    do
-        i=0
-        while ((i<$nPT))
-        do
-            k=0
-            while ((k<$nMVA))
-            do
-	            s=nvIni
-	            while ((s<$nVAR))
-    	        do
-	                root -l -b -q 'getCutGivenEffB.cc++('\"${MVA[k]}\"','\"${COLSYST[j]}\"','${PTBIN[i]}','${PTBIN[i+1]}','$(($s+1))','$EffB')'
-    	            rm getCutGivenEffB_cc.d getCutGivenEffB_cc.so getCutGivenEffB_cc_ACLiC_dict_rdict.pcm
-        	        s=$(($s+1))
-	            done
-                k=$(($k+1))
-            done
-            i=$(($i+1))
-        done
-        j=$(($j+1))
-    done
-    cd ../
-fi
-
-## deprecated
-#DOMAKEVAR=0
-# Tree Variables #
-#if [ $DOMAKEVAR -eq 1 ]; then
-#    j=0
-#    while ((j<$nCOL))
-#    do
-#        i=0
-#	    while ((i<$nPT))
-#		do
-#	    	k=0
-#			cd mva/
-#			if [ -e header.h ]; then rm header.h; touch header.h; fi
-#		    while ((k<$nMVA))
-#    		do
-#				if [ "${MVA[k]}" = "LD" ] || [ "${MVA[k]}" = "MLP" ] || [ "${MVA[k]}" = "BDT" ] || [ "${MVA[k]}" = "BDTB" ]; then
-#					echo "#include \"../myTMVA/weights/TMVA_${MVA[k]}_${COLSYST[j]}_${PTBIN[i]}_${PTBIN[i+1]}.class.C\"" >> header.h
-#				fi
-#    			k=$(($k+1))
-#			done
-#			cd macros/
-#			root -l -b -q 'MVA.C++('${isPbPb[j]}','${PTBIN[i]}','${PTBIN[i+1]}',"MVA")' 
-#			rm MVA_C_ACLiC_dict_rdict.pcm MVA_C.d MVA_C.so
-#			cd ../..
-#			i=$(($i+1))
-#    	done
-#    	j=$(($j+1))
-#    done
-#fi

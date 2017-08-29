@@ -19,7 +19,8 @@ int nFiles = sizeof(inFileNames)/sizeof(string);
 
 const int nBins=3;
 float ptBins[nBins+1] = {5, 7, 10, 15};
-float MVACutVal[nBins] = {-0.045243, -0.060866, -0.063513};//efficiency all 0.1 
+//float MVACutVal[nBins] = {-0.045243, -0.060866, -0.063513};//efficiency all 0.1 
+float MVACutVal[nBins] = {0.059537, 0.043997, 0.057870};//efficiency all 0.01 
 string MVAfname[nBins] = {"TMVA_BDT_pp_5_7_varStage3.weights.xml", "TMVA_BDT_pp_7_10_varStage3.weights.xml", "TMVA_BDT_pp_10_15_varStage3.weights.xml"};
 string MVAtype[nBins] = {"BDT", "BDT", "BDT"};
 

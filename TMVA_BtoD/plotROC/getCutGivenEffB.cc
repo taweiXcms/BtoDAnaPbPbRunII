@@ -3,10 +3,16 @@
 #include <TH1.h>
 #include <TCanvas.h>
 #include "../readxml/Tools.h"
-#include "../readxml/readxml_Cuts.h"
 #include "style.h"
 using namespace std;
 TLegend* myLegend(Double_t x1, Double_t y1, Double_t x2, Double_t y2);
+const int NEff = 100;
+double effS[NEff], effB[NEff],effSig[NEff],effBac[NEff];
+const int NmaxVar = 20;
+std::vector<TString> cuts;
+std::vector<Double_t> cutvalMin[NmaxVar];
+std::vector<Double_t> cutvalMax[NmaxVar];
+TString varval[NmaxVar];
 void getCutGivenEffB(string mvatype="MLP", string colsys = "pp", float ptmin = 5, float ptmax = 7, int nvar = 6, float EffB = 0.1){
 //void getCutGivenEffB(string mvatype="CutsSA", string colsys = "pp", float ptmin = 5, float ptmax = 7, int nvar = 6, float EffB = 0.1){
 
@@ -104,6 +110,7 @@ void getCutGivenEffB(string mvatype="MLP", string colsys = "pp", float ptmin = 5
 			TMVA::gTools().ReadAttr(eff, "effS", effS[n]);
 			TMVA::gTools().ReadAttr(eff, "effB", effB[n]);
 			void* cutsnode = TMVA::gTools().GetChild(eff,"Cuts");
+			cut[n] = "";
 			for(unsigned long l=0;l<varnames.size();l++)
 			{
 				double min,max;
@@ -113,7 +120,6 @@ void getCutGivenEffB(string mvatype="MLP", string colsys = "pp", float ptmin = 5
 				cutvalMin[l].push_back(min);
 				TString lessmax = "<"; lessmax+=max;
 				TString moremin = ">"; moremin+=min;
-				cut[l] = "";
 				if(margins[l]=="FMin" || margins[l]=="NotEnforced")
 				{
 					cut[n]+=" && "+varnames[l]+lessmax;
