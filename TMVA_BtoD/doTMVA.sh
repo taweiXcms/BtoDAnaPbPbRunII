@@ -1,9 +1,9 @@
 #!/bin/bash
 
 DOTMVA=0
-PRODMVAVALUE=1
+PRODMVAVALUE=0
 DOMERGE=0
-DOREADXML=0
+DOREADXML=1
 PLOTROC=0
 GETCUTVAL=0
 EffB=0.01
@@ -23,14 +23,14 @@ if [ ! -d $OUTPUTDIR ]; then
 fi
 
 # if working on several ptbins, BDT.C need to be changed
-PTBIN=(5 7 10)
-RAA=(0.49 0.49)
+PTBIN=(5 7 10 15)
+RAA=(0.49 0.49 0.49)
 COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
-MVA=('MLP')
-nvIni=1
-nVAR=2
+MVA=('BDT')
+nvIni=2
+nVAR=3
 
 ##
 MVAStr=''
@@ -148,10 +148,12 @@ if [ $DOREADXML -eq 1 ]; then
 	j=0
 	while ((j<$nCOL))
 	do
+		inputMC=${inputMCs[${isPbPb[j]}]}
+		inputData=${inputDatas[${isPbPb[j]}]}
 	    i=0
 	    while ((i<$nPT))
 	    do
-            root -b -q "calRatio.cc++("${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}","\"${COLSYST[j]}_pT_${PTBIN[i]}_${PTBIN[i+1]}.h\"")"
+            root -b -q "calRatio.cc++("\"${inputMC}\"","\"${inputData}\"","${isPbPb[j]}","\"${MVA[k]}\"","${PTBIN[i]}","${PTBIN[i+1]}","${RAA[i]}","\"${COLSYST[j]}_pT_${PTBIN[i]}_${PTBIN[i+1]}.h\"")"
             rm calRatio_cc.d calRatio_cc.so calRatio_cc_ACLiC_dict_rdict.pcm
 			cp ${COLSYST[j]}"_pT_"${PTBIN[i]}"_"${PTBIN[i+1]}".h" pred_temp.h
 	        k=0

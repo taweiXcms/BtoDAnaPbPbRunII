@@ -12,7 +12,7 @@ TString evtweight="1";
 //TString hltPrescale="((DtktkRespt>8&&DtktkRespt<15)*1/(9.740888e+01)+(DtktkRespt>15&&DtktkRespt<20)*1/(2.594206e+01)+(DtktkRespt>20&&DtktkRespt<30)*1/(8.305474e+00)+(DtktkRespt>30&&DtktkRespt<50)*1/(4.070169e+00)+(DtktkRespt>50)*1/(1))";
 TString hltPrescale="1";
 
-void calRatio(Int_t pbpb=0, TString mva="BDT", Float_t ptMin=5., Float_t ptMax=7., Float_t RAA=1., TString predfname="pp_pT_5_7.h")
+void calRatio(TString inputSname="", TString inputBname="", Int_t pbpb=0, TString mva="BDT", Float_t ptMin=5., Float_t ptMax=7., Float_t RAA=1., TString predfname="pp_pT_5_7.h")
 {
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
@@ -38,8 +38,8 @@ void calRatio(Int_t pbpb=0, TString mva="BDT", Float_t ptMin=5., Float_t ptMax=7
 	cutb = isPbPb?Form("(%s)&&Dpt>%f&&Dpt<%f&&hiBin>=0&&hiBin<=200",mycutb.Data(),ptmin,ptmax):Form("(%s)&&Dpt>%f&&Dpt<%f",mycutb.Data(),ptmin,ptmax);
 	cutg = isPbPb?Form("(%s)&&Gpt>%f&&Gpt<%f&&hiBin>=0&&hiBin<=200",mycutg.Data(),ptmin,ptmax):Form("(%s)&&Gpt>%f&&Gpt<%f",mycutg.Data(),ptmin,ptmax);
 
-	TString inputSname = Form("../test/ntB_pp_MC.root");
-	TString inputBname = Form("../test/ntB_pp_Data.root");
+	//TString inputSname = Form("../test/ntB_pp_MC.root");
+	//TString inputBname = Form("../test/ntB_pp_Data.root");
 	TFile *inputS = new TFile(inputSname.Data());
 	TFile *inputB = new TFile(inputBname.Data());
 	TTree* background = (TTree*)inputB->Get("ntBptoD0pi");
