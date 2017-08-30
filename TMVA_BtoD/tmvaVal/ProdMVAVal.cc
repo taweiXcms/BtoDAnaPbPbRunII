@@ -5,6 +5,8 @@
 #define MAX_XB       20000
 
 void ProdMVAVal(string colsys = "pp", float ptMin = 5, float ptMax = 7, string mvatype = "MLP", int varStage = 5, TString inputS = "", TString inputB = ""){
+    std::size_t found = mvatype.find("Cuts");
+    if (found!=std::string::npos) return;
 
 	void makeoutput(TString infname, TString ofname, string colsys, string mvatype, int varStage);
 

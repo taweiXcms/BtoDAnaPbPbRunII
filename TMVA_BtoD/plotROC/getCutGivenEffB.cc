@@ -16,7 +16,9 @@ TString varval[NmaxVar];
 void getCutGivenEffB(string mvatype="MLP", string colsys = "pp", float ptmin = 5, float ptmax = 7, int nvar = 6, float EffB = 0.1){
 //void getCutGivenEffB(string mvatype="CutsSA", string colsys = "pp", float ptmin = 5, float ptmax = 7, int nvar = 6, float EffB = 0.1){
 
-	printf("MYV type: %s\nStage: %d\n", mvatype.c_str(), nvar);	
+    printf("Pt:                                %.0f %0.f\n",ptmin,ptmax);
+	printf("MYV type:                          %s\n", mvatype.c_str());	
+	printf("Stage:                             %d\n",nvar);	
 	TFile* f;
 	TH1F* h;
 	TH1F* heffB;
@@ -88,18 +90,10 @@ void getCutGivenEffB(string mvatype="MLP", string colsys = "pp", float ptmin = 5
 			TMVA::gTools().ReadAttr(var, "Expression", varname);
 			TString tem = Form("Variable%i",k);
 			varval[k] = varname;
-			//cout<<" ├────────────┼───────────────────────────────────────────────┼─────────────┤"<<endl;
 			//cout<<" | "<<setiosflags(ios::left)<<setw(10)<<tem<<" | "<<setiosflags(ios::left)<<setw(45)<<varname<<" | "<<setiosflags(ios::left)<<setw(11)<<margins[k]<<" |"<<endl;
 			var = TMVA::gTools().GetNextChild(var);
 			varnames.push_back(varname);
 		}
-		/*
-		cout<<" ╞════════════╪═══════════════════════════════════════════════╪═════════════╡"<<endl;
-		cout<<" | "<<setiosflags(ios::left)<<setw(10)<<"Pt"<<" | "<<setiosflags(ios::left)<<setw(45)<<ptstring<<" | "<<setiosflags(ios::left)<<setw(11)<<" "<<" |"<<endl;
-		cout<<" ├────────────┼───────────────────────────────────────────────┼─────────────┤"<<endl;
-		cout<<" | "<<setiosflags(ios::left)<<setw(10)<<"Raa"<<" | "<<setiosflags(ios::left)<<setw(45)<<raa<<" | "<<setiosflags(ios::left)<<setw(11)<<" "<<" |"<<endl;
-		cout<<" ╘════════════╧═══════════════════════════════════════════════╧═════════════╛"<<endl;
-		*/
 
 		void* weight = TMVA::gTools().GetChild(rootnode,"Weights");
 		void* eff = TMVA::gTools().GetChild(weight,"Bin");

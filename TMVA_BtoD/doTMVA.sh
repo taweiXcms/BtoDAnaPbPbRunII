@@ -1,11 +1,11 @@
 #!/bin/bash
 
 DOTMVA=0
-PRODMVAVALUE=0
+PRODMVAVALUE=1
 DOMERGE=0
 DOREADXML=0
 PLOTROC=0
-GETCUTVAL=1
+GETCUTVAL=0
 EffB=0.01
 #
 OUTPUTDIR="test"
@@ -14,7 +14,7 @@ inputMCs=(
 "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_PbPb_BuToD0Pi_20151212_DfinderMC_PbPb_20170720_BtoD0Pi_40FilesEach_pthatweight.root"
 )
 inputDatas=(
-"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170731_MinimumBias2_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim.root"
+"/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim/Dntuple_20170731_MinimumBias_DfinderData_pp_20170729_BtoD0Pi_Dpt5EvtSkim.root"
 "/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/samples/Dntuple_20170717_HIMinimumBias2_DfinderData_PbPb_20170717_Golden_BtoD0Pi_Dpt5EvtSkim_10Files.root"
 ""
 )
@@ -23,14 +23,14 @@ if [ ! -d $OUTPUTDIR ]; then
 fi
 
 # if working on several ptbins, BDT.C need to be changed
-PTBIN=(5 7)
-RAA=(0.49)
+PTBIN=(5 7 10)
+RAA=(0.49 0.49)
 COLSYST=('pp')
 isPbPb=(0)
 #MVA=('CutsGA' 'BDT' 'MLP' 'DNN')
-MVA=('CutsSA' 'MLP' 'BDT')
+MVA=('MLP')
 nvIni=1
-nVAR=3
+nVAR=2
 
 ##
 MVAStr=''
@@ -54,7 +54,6 @@ do
         mkdir $i
     fi
 done
-
 
 # TMVAClassification.C #
 v=$nvIni
@@ -119,23 +118,28 @@ if [ $PRODMVAVALUE -eq 1 ]; then
 fi
 
 # mergeBDT.C 
-outputMC="${OUTPUTDIR}/ntB_${COLSYST[j]}_MC.root"
-outputData="${OUTPUTDIR}/ntB_${COLSYST[j]}_Data.root"
-inputMC=${inputMCs[${isPbPb[j]}]}
-inputData=${inputDatas[${isPbPb[j]}]}
 if [ $DOMERGE -eq 1 ]; then
 	cd tmvaVal/MVAfiles 
-    if [ -f $outputMC ]; then
-        echo "  Error: Targed merged file exists: $outputMC"
-    else
-        hadd ../../$outputMC $inputMC *_${COLSYST[j]}_*_varStage*_MC.root 
-    fi
-    if [ -f $outputData ]; then
-        echo "  Error: Targed merged file exists: $outputData"
-    else
-        hadd ../../$outputData $inputData *_${COLSYST[j]}_*_varStage*_DATA.root
-    fi
-	cd -
+	j=0
+	while ((j<$nCOL))
+	do
+		outputMC="${OUTPUTDIR}/ntB_${COLSYST[j]}_MC.root"
+		outputData="${OUTPUTDIR}/ntB_${COLSYST[j]}_Data.root"
+		inputMC=${inputMCs[${isPbPb[j]}]}
+		inputData=${inputDatas[${isPbPb[j]}]}
+	    if [ -f $outputMC ]; then
+	        echo "  Error: Targed merged file exists: $outputMC"
+	    else
+	        hadd ../../$outputMC $inputMC *_${COLSYST[j]}_*_varStage*_MC.root 
+	    fi
+	    if [ -f $outputData ]; then
+	        echo "  Error: Targed merged file exists: $outputData"
+	    else
+	        hadd ../../$outputData $inputData *_${COLSYST[j]}_*_varStage*_DATA.root
+	    fi
+		cd -
+	    j=$(($j+1))
+	done
 fi
 
 # readxml.cc 

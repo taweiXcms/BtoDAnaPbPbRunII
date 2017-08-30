@@ -12,11 +12,10 @@ void plotROC_MethodWise(string mvatype="CutsGA", string colsys = "pp", float ptm
 	TH1F* h[maxstyle];
 
     TCanvas* c =  new TCanvas("c","",600,600);
-	//c->SetLogx();
 	c->cd();
 	TH1F* hempty = new TH1F(Form("%s_ROC",mvatype.c_str()),Form("%s ROC curves",mvatype.c_str()),100,0,1.1);
 	hempty->SetMaximum(1.2);
-	hempty->SetMinimum(0.0);
+	//hempty->SetMinimum(0.);
 	hempty->SetTitle("");
     TLatex* texCut = new TLatex(0.7,0.88,Form("%s",mvatype.c_str())); 
     texCut->SetNDC();    texCut->SetTextAlign(12);    texCut->SetTextSize(0.05);    texCut->SetTextFont(42);
@@ -37,7 +36,9 @@ void plotROC_MethodWise(string mvatype="CutsGA", string colsys = "pp", float ptm
         leg->AddEntry(h[i],Form("variable lv %d",i+1),"l");
 	}
 	leg->Draw();
-	c->SaveAs(Form("plotsROC/%sBvsS_%s.pdf", istrain.c_str(), mvatype.c_str()));
+	c->SaveAs(Form("plotsROC/%s_pT_%.0f_%.0f_%sBvsS_%s.pdf", colsys.c_str(), ptmin, ptmax, istrain.c_str(), mvatype.c_str()));
+	c->SetLogy(1);
+	c->SaveAs(Form("plotsROC/%s_pT_%.0f_%.0f_%sBvsS_%s_log.pdf", colsys.c_str(), ptmin, ptmax, istrain.c_str(), mvatype.c_str()));
 
 	if(isTrain == 1) istrain = "trainingEff";
 	else istrain = "eff";
@@ -53,7 +54,10 @@ void plotROC_MethodWise(string mvatype="CutsGA", string colsys = "pp", float ptm
 	}
     leg->SetY1(0.3); leg->SetY2(1.1);
 	leg->Draw();
-	c->SaveAs(Form("plotsROC/%sBvsS_%s.pdf", istrain.c_str(), mvatype.c_str()));
+	c->SetLogy(0);
+	c->SaveAs(Form("plotsROC/%s_pT_%.0f_%.0f_%sBvsS_%s.pdf", colsys.c_str(), ptmin, ptmax, istrain.c_str(), mvatype.c_str()));
+	c->SetLogy(1);
+	c->SaveAs(Form("plotsROC/%s_pT_%.0f_%.0f_%sBvsS_%s_log.pdf", colsys.c_str(), ptmin, ptmax, istrain.c_str(), mvatype.c_str()));
 }
 
 TLegend* myLegend(Double_t x1, Double_t y1, Double_t x2, Double_t y2)
