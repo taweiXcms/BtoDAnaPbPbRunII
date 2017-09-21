@@ -1,0 +1,23 @@
+MVA methods: MLP
+
+Processing getCutGivenEffB.cc++("MLP","pp",5,7,2,0.01)...
+Pt:                                5 7
+MYV type:                          MLP
+Stage:                             2
+EffS (interpolated): 0.561895
+Cut value (non-linear method): 0.286570
+
+Processing getCutGivenEffB.cc++("MLP","pp",7,10,2,0.01)...
+Pt:                                7 10
+MYV type:                          MLP
+Stage:                             2
+EffS (interpolated): 0.704622
+Cut value (non-linear method): 0.658840
+
+Processing getCutGivenEffB.cc++("MLP","pp",10,15,2,0.01)...
+Pt:                                10 15
+MYV type:                          MLP
+Stage:                             2
+EffS (interpolated): 0.739704
+Cut value (non-linear method): 0.929639
+/net/hisrv0001/home/tawei/scratch/HeavyFlavor/Run2Ana/BtoDAna/BtoDAnaPbPbRunII/TMVA_BtoD_PbPbSkimTrain

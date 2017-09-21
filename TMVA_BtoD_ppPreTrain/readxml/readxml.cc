@@ -44,6 +44,7 @@ void readxml(Int_t pbpb=0, TString mva="BDT", int _stage=1, Float_t ptMin=7., Fl
 	printf("=======================================================================================================\n");
 	printf("MVA type:                          %s\n",MVAtype.Data());
 	printf("Pt:                                %.0f %0.f\n",ptmin,ptmax);
+	printf("Stage:                             %d\n",stage);
 	printf("Raa:                               %f\n", RAA);
 
 	std::string str = MVAtype.Data();

@@ -61,7 +61,6 @@ void plotROC_StageWise(string mvatype="CutsGA,CutsSA,LD,MLP,BDT", string colsys 
 		h[i]->SetLineWidth(3);
 		h[i]->Draw("same");
 	}
-	leg->SetY1(0.3); leg->SetY2(1.1);
 	leg->Draw();
 	c->SetLogy(0);
 	c->SaveAs(Form("plotsROC/%s_pT_%.0f_%.0f_%sBvsS_Stage%d.pdf", colsys.c_str(), ptmin, ptmax, istrain.c_str(), stage));

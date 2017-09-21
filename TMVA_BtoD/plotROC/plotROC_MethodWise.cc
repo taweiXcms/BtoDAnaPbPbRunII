@@ -52,7 +52,6 @@ void plotROC_MethodWise(string mvatype="CutsGA", string colsys = "pp", float ptm
 		h[i]->SetLineWidth(3);
 		h[i]->Draw("same");
 	}
-    leg->SetY1(0.3); leg->SetY2(1.1);
 	leg->Draw();
 	c->SetLogy(0);
 	c->SaveAs(Form("plotsROC/%s_pT_%.0f_%.0f_%sBvsS_%s.pdf", colsys.c_str(), ptmin, ptmax, istrain.c_str(), mvatype.c_str()));
