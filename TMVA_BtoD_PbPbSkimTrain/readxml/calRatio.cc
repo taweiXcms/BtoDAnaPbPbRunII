@@ -108,7 +108,7 @@ void calRatio(TString inputSname="", TString inputBname="", Int_t pbpb=0, TStrin
 	yieldDzero*=BR*deltapt*lumi*RAA*2*0.401;// need to consider HLT prescale
 
 	Float_t* results = new Float_t[2];
-	results[0] = nentriesB*0.08/0.3*2;// *2 since for BtoD sideband is only on 1 side
+	results[0] = nentriesB*0.08/0.1;
 	results[1] = yieldDzero;
 	cout<<"# of background in sideband: "<<nentriesB<<endl;
 	cout<<"# of background in signal region: "<<results[0]<<endl;
