@@ -235,7 +235,7 @@ void readxml(Int_t pbpb=0, TString mva="BDT", int _stage=1, Float_t ptMin=7., Fl
 	}
 	else{
 		//read TMVA output
-		TString inputMVAname = Form("../myTMVA/ROOT/TMVA_pp_%.0f_%.0f_varStage%d.root",ptMin,ptMax,stage);
+        TString inputMVAname = Form("../myTMVA/ROOT/TMVA_%s_%.0f_%.0f_varStage%d.root",colsyst.Data(),ptMin,ptMax,stage);
 		TFile *inputMVA = new TFile(inputMVAname.Data());
 
 		TH1D* th1_S = (TH1D*)inputMVA->Get(Form("dataset/Method_%s/%s/MVA_%s_S", MVAtype.Data(), MVAtype.Data(), MVAtype.Data()));
