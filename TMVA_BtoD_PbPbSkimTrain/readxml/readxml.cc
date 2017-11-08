@@ -44,7 +44,7 @@ void readxml(Int_t pbpb=0, TString mva="BDT", int _stage=1, Float_t ptMin=7., Fl
 	printf("=======================================================================================================\n");
 	printf("MVA type:                          %s\n",MVAtype.Data());
 	printf("Pt:                                %.0f %0.f\n",ptmin,ptmax);
-	printf("Stage:                             %d\n",stage);
+    printf("Stage:                             %d\n",stage);
 	printf("Raa:                               %f\n", RAA);
 
 	std::string str = MVAtype.Data();
@@ -191,6 +191,8 @@ void readxml(Int_t pbpb=0, TString mva="BDT", int _stage=1, Float_t ptMin=7., Fl
 		printf("significance:                      %f\n",maxsig);
 		printf("effb                               %.10f\n",effB[maxindex]);
 		printf("effs                               %.10f\n",effS[maxindex]);
+        printf("effb*nbackground                   %.10f\n",effB[maxindex]*wBackground);
+        printf("effs*nsignal                       %.10f\n",effS[maxindex]*wSignal);
 
 		for(unsigned int m=0;m<nVar;m++)
 		{
@@ -317,6 +319,8 @@ void readxml(Int_t pbpb=0, TString mva="BDT", int _stage=1, Float_t ptMin=7., Fl
 		printf("significance:                      %f\n",_maxsigval);
 		printf("effb                               %.10f\n",_effb);
 		printf("effs                               %.10f\n",_effs);
+        printf("effb*nbackground                   %.10f\n",_effb*wBackground);
+        printf("effs*nsignal                       %.10f\n",_effs*wSignal);
 		cout<<setiosflags(ios::left)<<setw(35)<<"cutval: "<<_cutval<<endl;
 		TCanvas* csig = new TCanvas("csig","",600,600);
 		TH2F* hempty = new TH2F("hempty","",50,_cutval_arr[0]-0.2,_cutval_arr[_bins-1]+0.2,10,0.,_maxsigval*1.2);  
